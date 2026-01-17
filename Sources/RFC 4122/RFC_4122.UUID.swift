@@ -1,6 +1,20 @@
 // RFC_4122.UUID.swift
 // Core 128-bit UUID type per RFC 4122
 
+import ASCII
+import Standard_Library_Extensions
+
+#if os(macOS) || os(iOS) || os(tvOS) || os(watchOS) || os(visionOS)
+import Darwin_Primitives
+import Darwin_Kernel_Primitives
+#elseif os(Linux)
+import Linux_Primitives
+import Linux_Kernel_Primitives
+#elseif os(Windows)
+import Windows_Primitives
+import Windows_Kernel_Primitives
+#endif
+
 extension RFC_4122 {
     /// A 128-bit universally unique identifier per RFC 4122.
     ///
@@ -127,101 +141,158 @@ extension RFC_4122.UUID {
 // MARK: - Parsing
 
 extension RFC_4122.UUID {
-    /// Parses a UUID string.
+    /// Parses a UUID string using native platform APIs when available.
+    ///
+    /// For 36-character hyphenated format, uses native `uuid_parse` (Darwin/Linux)
+    /// or `UuidFromStringA` (Windows) for near-Foundation performance.
+    /// Falls back to pure Swift for compact format or unsupported platforms.
     private static func parse(_ string: String) throws(Error) -> Self {
-        let chars = Array(string)
-        let count = chars.count
+        // Try native parsing first for hyphenated format (36 chars)
+        if string.utf8.count == 36 {
+            #if os(macOS) || os(iOS) || os(tvOS) || os(watchOS) || os(visionOS)
+            if let bytes = Darwin_Primitives.Darwin.Identity.UUID.parse(string) {
+                return Self(bytes: bytes)
+            }
+            #elseif os(Linux)
+            if let bytes = Linux_Primitives.Linux.Identity.UUID.parse(string) {
+                return Self(bytes: bytes)
+            }
+            #elseif os(Windows)
+            if let bytes = Windows_Primitives.Windows.Identity.UUID.parse(string) {
+                return Self(bytes: bytes)
+            }
+            #endif
+        }
 
-        // Determine format based on length
+        // Fallback to pure Swift (handles compact format + detailed errors)
+        return try parseUTF8(Array(string.utf8), originalString: string)
+    }
+
+    /// Parses UUID from UTF-8 bytes.
+    ///
+    /// - Parameters:
+    ///   - utf8: Collection of UTF-8 bytes
+    ///   - originalString: Original string for error reporting
+    /// - Returns: Parsed UUID
+    /// - Throws: `Error` for invalid input
+    private static func parseUTF8<C: Collection>(
+        _ utf8: C,
+        originalString: String
+    ) throws(Error) -> Self where C.Element == UInt8, C.Index == Int {
+        let count = utf8.count
+
         switch count {
         case 36:
             // Hyphenated format: xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx
-            // Validate hyphens at positions 8, 13, 18, 23
-            guard chars[8] == "-", chars[13] == "-", chars[18] == "-", chars[23] == "-" else {
+            // Validate hyphens at byte positions 8, 13, 18, 23
+            let hyphen = Binary.ASCII.hyphen
+            guard utf8[utf8.startIndex + 8] == hyphen,
+                  utf8[utf8.startIndex + 13] == hyphen,
+                  utf8[utf8.startIndex + 18] == hyphen,
+                  utf8[utf8.startIndex + 23] == hyphen else {
                 throw .invalidFormat
             }
-            return try parseHexDigits(chars, hyphenated: true)
+            return try parseHyphenatedUTF8(utf8, originalString: originalString)
 
         case 32:
             // Compact format: no hyphens
-            return try parseHexDigits(chars, hyphenated: false)
+            return try parseCompactUTF8(utf8, originalString: originalString)
 
         default:
             throw .invalidLength
         }
     }
 
-    private static func parseHexDigits(_ chars: [Character], hyphenated: Bool) throws(Error) -> Self {
-        var bytes: [UInt8] = []
-        bytes.reserveCapacity(16)
+    /// Parses hyphenated format (36 bytes): xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx
+    @inline(__always)
+    private static func parseHyphenatedUTF8<C: Collection>(
+        _ utf8: C,
+        originalString: String
+    ) throws(Error) -> Self where C.Element == UInt8, C.Index == Int {
+        // Hex digit positions in hyphenated format (skipping hyphens at 8, 13, 18, 23)
+        // Group 1: 0-7   (8 hex digits = 4 bytes)
+        // Group 2: 9-12  (4 hex digits = 2 bytes)
+        // Group 3: 14-17 (4 hex digits = 2 bytes)
+        // Group 4: 19-22 (4 hex digits = 2 bytes)
+        // Group 5: 24-35 (12 hex digits = 6 bytes)
 
-        var hexIndex = 0
-        for (charIndex, char) in chars.enumerated() {
-            if hyphenated && (charIndex == 8 || charIndex == 13 || charIndex == 18 || charIndex == 23) {
-                continue // Skip hyphens
+        let start = utf8.startIndex
+
+        @inline(__always)
+        func byte(at highPos: Int, _ lowPos: Int) throws(Error) -> UInt8 {
+            guard let high = Binary.ASCII.ascii(hexDigit: utf8[start + highPos]),
+                  let low = Binary.ASCII.ascii(hexDigit: utf8[start + lowPos]) else {
+                // Find which position failed for error reporting
+                let failPos = Binary.ASCII.ascii(hexDigit: utf8[start + highPos]) == nil ? highPos : lowPos
+                let chars = Array(originalString)
+                throw .invalidCharacter(chars[failPos], at: failPos)
             }
-
-            guard let highNibble = char.hexDigitValue else {
-                throw .invalidCharacter(char, at: charIndex)
-            }
-
-            hexIndex += 1
-            if hexIndex % 2 == 0 {
-                continue
-            }
-
-            // Look ahead for the low nibble
-            let nextCharIndex = hyphenated ? skipHyphen(charIndex + 1) : charIndex + 1
-            guard nextCharIndex < chars.count else {
-                throw .invalidFormat
-            }
-
-            let nextChar = chars[nextCharIndex]
-            guard let lowNibble = nextChar.hexDigitValue else {
-                throw .invalidCharacter(nextChar, at: nextCharIndex)
-            }
-
-            bytes.append(UInt8(highNibble << 4 | lowNibble))
+            return (high << 4) | low
         }
 
-        guard bytes.count == 16 else {
-            throw .invalidFormat
-        }
-
-        return try Self(bytes)
+        return Self(bytes: (
+            // time_low (bytes 0-3)
+            try byte(at: 0, 1),
+            try byte(at: 2, 3),
+            try byte(at: 4, 5),
+            try byte(at: 6, 7),
+            // time_mid (bytes 4-5), after hyphen at 8
+            try byte(at: 9, 10),
+            try byte(at: 11, 12),
+            // time_hi_and_version (bytes 6-7), after hyphen at 13
+            try byte(at: 14, 15),
+            try byte(at: 16, 17),
+            // clock_seq_hi_and_reserved (byte 8), after hyphen at 18
+            try byte(at: 19, 20),
+            // clock_seq_low (byte 9)
+            try byte(at: 21, 22),
+            // node (bytes 10-15), after hyphen at 23
+            try byte(at: 24, 25),
+            try byte(at: 26, 27),
+            try byte(at: 28, 29),
+            try byte(at: 30, 31),
+            try byte(at: 32, 33),
+            try byte(at: 34, 35)
+        ))
     }
 
-    private static func skipHyphen(_ index: Int) -> Int {
-        switch index {
-        case 8, 13, 18, 23: return index + 1
-        default: return index
-        }
-    }
-}
+    /// Parses compact format (32 bytes): xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+    @inline(__always)
+    private static func parseCompactUTF8<C: Collection>(
+        _ utf8: C,
+        originalString: String
+    ) throws(Error) -> Self where C.Element == UInt8, C.Index == Int {
+        let start = utf8.startIndex
 
-// MARK: - Character Extension
-
-extension Character {
-    /// Returns the hex digit value (0-15) if this character is a hex digit.
-    fileprivate var hexDigitValue: Int? {
-        switch self {
-        case "0": return 0
-        case "1": return 1
-        case "2": return 2
-        case "3": return 3
-        case "4": return 4
-        case "5": return 5
-        case "6": return 6
-        case "7": return 7
-        case "8": return 8
-        case "9": return 9
-        case "a", "A": return 10
-        case "b", "B": return 11
-        case "c", "C": return 12
-        case "d", "D": return 13
-        case "e", "E": return 14
-        case "f", "F": return 15
-        default: return nil
+        @inline(__always)
+        func byte(at highPos: Int, _ lowPos: Int) throws(Error) -> UInt8 {
+            guard let high = Binary.ASCII.ascii(hexDigit: utf8[start + highPos]),
+                  let low = Binary.ASCII.ascii(hexDigit: utf8[start + lowPos]) else {
+                // Find which position failed for error reporting
+                let failPos = Binary.ASCII.ascii(hexDigit: utf8[start + highPos]) == nil ? highPos : lowPos
+                let chars = Array(originalString)
+                throw .invalidCharacter(chars[failPos], at: failPos)
+            }
+            return (high << 4) | low
         }
+
+        return Self(bytes: (
+            try byte(at: 0, 1),
+            try byte(at: 2, 3),
+            try byte(at: 4, 5),
+            try byte(at: 6, 7),
+            try byte(at: 8, 9),
+            try byte(at: 10, 11),
+            try byte(at: 12, 13),
+            try byte(at: 14, 15),
+            try byte(at: 16, 17),
+            try byte(at: 18, 19),
+            try byte(at: 20, 21),
+            try byte(at: 22, 23),
+            try byte(at: 24, 25),
+            try byte(at: 26, 27),
+            try byte(at: 28, 29),
+            try byte(at: 30, 31)
+        ))
     }
 }

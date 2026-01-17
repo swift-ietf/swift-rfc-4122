@@ -18,11 +18,32 @@ let package = Package(
         )
     ],
     dependencies: [
+        .package(path: "../../swift-foundations/swift-ascii"),
         .package(path: "../../swift-foundations/swift-testing-extras"),
+        .package(path: "../../swift-primitives/swift-standard-library-extensions"),
+        .package(path: "../../swift-primitives/swift-darwin-primitives"),
+        .package(path: "../../swift-primitives/swift-linux-primitives"),
+        .package(path: "../../swift-primitives/swift-windows-primitives"),
     ],
     targets: [
         .target(
-            name: "RFC 4122"
+            name: "RFC 4122",
+            dependencies: [
+                .product(name: "ASCII", package: "swift-ascii"),
+                .product(name: "Standard Library Extensions", package: "swift-standard-library-extensions"),
+                .product(name: "Darwin Primitives", package: "swift-darwin-primitives",
+                         condition: .when(platforms: [.macOS, .iOS, .tvOS, .watchOS, .visionOS])),
+                .product(name: "Darwin Kernel Primitives", package: "swift-darwin-primitives",
+                         condition: .when(platforms: [.macOS, .iOS, .tvOS, .watchOS, .visionOS])),
+                .product(name: "Linux Primitives", package: "swift-linux-primitives",
+                         condition: .when(platforms: [.linux])),
+                .product(name: "Linux Kernel Primitives", package: "swift-linux-primitives",
+                         condition: .when(platforms: [.linux])),
+                .product(name: "Windows Primitives", package: "swift-windows-primitives",
+                         condition: .when(platforms: [.windows])),
+                .product(name: "Windows Kernel Primitives", package: "swift-windows-primitives",
+                         condition: .when(platforms: [.windows])),
+            ]
         ),
         .testTarget(
             name: "RFC 4122".tests,
