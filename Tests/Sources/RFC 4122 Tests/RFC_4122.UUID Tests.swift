@@ -1,11 +1,11 @@
 // RFC_4122.UUID Tests.swift
 
 import Testing
-import Testing_Extras
+import Testing
 @testable import RFC_4122
 
 extension RFC_4122.UUID {
-    #TestSuites
+    #Tests
 }
 
 // MARK: - Unit Tests

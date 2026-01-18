@@ -2,14 +2,13 @@
 // Performance comparison between RFC_4122.UUID and Foundation.UUID
 
 import Testing
-import Testing_Extras
 import Time_Primitives
 import Formatting_Primitives
 import Foundation
 @testable import RFC_4122
 
 // Disambiguate from Foundation.Measurement
-private typealias PerfMeasurement = Testing_Extras.Measurement
+private typealias PerfMeasurement = Benchmark.Measurement
 
 // MARK: - Foundation Comparison Suite
 
