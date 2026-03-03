@@ -71,7 +71,7 @@ extension RFC_4122 {
         ///
         /// - Parameter string: The UUID string to parse.
         /// - Throws: `Error` if the string is not a valid UUID.
-        public init(_ string: String) throws(Error) {
+        public init(_ string: Swift.String) throws(Error) {
             self = try Self.parse(string)
         }
 
@@ -146,7 +146,7 @@ extension RFC_4122.UUID {
     /// For 36-character hyphenated format, uses native `uuid_parse` (Darwin/Linux)
     /// or `UuidFromStringA` (Windows) for near-Foundation performance.
     /// Falls back to pure Swift for compact format or unsupported platforms.
-    private static func parse(_ string: String) throws(Error) -> Self {
+    private static func parse(_ string: Swift.String) throws(Error) -> Self {
         // Try native parsing first for hyphenated format (36 chars)
         if string.utf8.count == 36 {
             #if os(macOS) || os(iOS) || os(tvOS) || os(watchOS) || os(visionOS)
@@ -177,7 +177,7 @@ extension RFC_4122.UUID {
     /// - Throws: `Error` for invalid input
     private static func parseUTF8<C: Collection>(
         _ utf8: C,
-        originalString: String
+        originalString: Swift.String
     ) throws(Error) -> Self where C.Element == UInt8, C.Index == Int {
         let count = utf8.count
 
@@ -207,7 +207,7 @@ extension RFC_4122.UUID {
     @inline(__always)
     private static func parseHyphenatedUTF8<C: Collection>(
         _ utf8: C,
-        originalString: String
+        originalString: Swift.String
     ) throws(Error) -> Self where C.Element == UInt8, C.Index == Int {
         // Hex digit positions in hyphenated format (skipping hyphens at 8, 13, 18, 23)
         // Group 1: 0-7   (8 hex digits = 4 bytes)
@@ -260,7 +260,7 @@ extension RFC_4122.UUID {
     @inline(__always)
     private static func parseCompactUTF8<C: Collection>(
         _ utf8: C,
-        originalString: String
+        originalString: Swift.String
     ) throws(Error) -> Self where C.Element == UInt8, C.Index == Int {
         let start = utf8.startIndex
 
