@@ -17,7 +17,7 @@ extension RFC_4122.UUID {
     ///
     /// - Parameter body: A closure that takes an `UnsafeRawBufferPointer` to the 16 bytes.
     /// - Returns: The value returned by the closure.
-    public func withUnsafeBytes<R>(_ body: (UnsafeRawBufferPointer) throws -> R) rethrows -> R {
+    public func withUnsafeBytes<R, E: Swift.Error>(_ body: (UnsafeRawBufferPointer) throws(E) -> R) throws(E) -> R {
         try Swift.withUnsafeBytes(of: bytes, body)
     }
 
@@ -25,9 +25,9 @@ extension RFC_4122.UUID {
     ///
     /// - Parameter body: A closure that takes an `UnsafeMutableRawBufferPointer` to the 16 bytes.
     /// - Returns: The value returned by the closure.
-    public mutating func withUnsafeMutableBytes<R>(
-        _ body: (UnsafeMutableRawBufferPointer) throws -> R
-    ) rethrows -> R {
+    public mutating func withUnsafeMutableBytes<R, E: Swift.Error>(
+        _ body: (UnsafeMutableRawBufferPointer) throws(E) -> R
+    ) throws(E) -> R {
         try Swift.withUnsafeMutableBytes(of: &bytes, body)
     }
 }
