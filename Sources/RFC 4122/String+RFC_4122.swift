@@ -45,7 +45,7 @@ extension RFC_4122.UUID {
             : (0x30, 0x31, 0x32, 0x33, 0x34, 0x35, 0x36, 0x37,
                0x38, 0x39, 0x61, 0x62, 0x63, 0x64, 0x65, 0x66)  // 0-9, a-f
 
-        @inline(__always)
+        @inline(always)
         func hex(_ nibble: UInt8) -> UInt8 {
             Swift.withUnsafeBytes(of: hexTable) { $0[Int(nibble)] }
         }
@@ -56,14 +56,14 @@ extension RFC_4122.UUID {
         return String(unsafeUninitializedCapacity: capacity) { buffer in
             var i = 0
 
-            @inline(__always)
+            @inline(always)
             func writeByte(_ byte: UInt8) {
                 buffer[i] = hex(byte >> 4)
                 buffer[i + 1] = hex(byte & 0x0F)
                 i += 2
             }
 
-            @inline(__always)
+            @inline(always)
             func writeHyphen() {
                 buffer[i] = hyphen
                 i += 1

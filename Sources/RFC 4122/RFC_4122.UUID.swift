@@ -204,7 +204,7 @@ extension RFC_4122.UUID {
     }
 
     /// Parses hyphenated format (36 bytes): xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx
-    @inline(__always)
+    @inline(always)
     private static func parseHyphenatedUTF8<C: Collection>(
         _ utf8: C,
         originalString: Swift.String
@@ -218,7 +218,7 @@ extension RFC_4122.UUID {
 
         let start = utf8.startIndex
 
-        @inline(__always)
+        @inline(always)
         func byte(at highPos: Int, _ lowPos: Int) throws(Error) -> UInt8 {
             guard let high = Binary.ASCII.ascii(hexDigit: utf8[start + highPos]),
                   let low = Binary.ASCII.ascii(hexDigit: utf8[start + lowPos]) else {
@@ -257,14 +257,14 @@ extension RFC_4122.UUID {
     }
 
     /// Parses compact format (32 bytes): xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
-    @inline(__always)
+    @inline(always)
     private static func parseCompactUTF8<C: Collection>(
         _ utf8: C,
         originalString: Swift.String
     ) throws(Error) -> Self where C.Element == UInt8, C.Index == Int {
         let start = utf8.startIndex
 
-        @inline(__always)
+        @inline(always)
         func byte(at highPos: Int, _ lowPos: Int) throws(Error) -> UInt8 {
             guard let high = Binary.ASCII.ascii(hexDigit: utf8[start + highPos]),
                   let low = Binary.ASCII.ascii(hexDigit: utf8[start + lowPos]) else {
