@@ -50,6 +50,9 @@ let package = Package(
             name: "RFC 4122 Tests",
             dependencies: [
                 "RFC 4122",
+            ],
+            exclude: [
+                "RFC_4122.UUID Foundation Comparison Tests.swift",
             ]
         ),
     ],

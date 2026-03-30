@@ -185,7 +185,7 @@ extension RFC_4122.UUID {
         case 36:
             // Hyphenated format: xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx
             // Validate hyphens at byte positions 8, 13, 18, 23
-            let hyphen = UInt8(ascii: "-")
+            let hyphen = UInt8.ascii.hyphen
             guard utf8[utf8.startIndex + 8] == hyphen,
                   utf8[utf8.startIndex + 13] == hyphen,
                   utf8[utf8.startIndex + 18] == hyphen,
