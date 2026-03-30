@@ -18,7 +18,7 @@ let package = Package(
         )
     ],
     dependencies: [
-        .package(path: "../../swift-foundations/swift-ascii"),
+        .package(path: "../../swift-primitives/swift-ascii-primitives"),
         .package(path: "../../swift-primitives/swift-standard-library-extensions"),
         .package(path: "../../swift-primitives/swift-dependency-primitives"),
         .package(path: "../../swift-primitives/swift-darwin-primitives"),
@@ -29,7 +29,7 @@ let package = Package(
         .target(
             name: "RFC 4122",
             dependencies: [
-                .product(name: "ASCII", package: "swift-ascii"),
+                .product(name: "ASCII Primitives", package: "swift-ascii-primitives"),
                 .product(name: "Standard Library Extensions", package: "swift-standard-library-extensions"),
                 .product(name: "Dependency Primitives", package: "swift-dependency-primitives"),
                 .product(name: "Darwin Primitives", package: "swift-darwin-primitives",

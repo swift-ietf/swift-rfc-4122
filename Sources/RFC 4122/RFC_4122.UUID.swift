@@ -1,7 +1,7 @@
 // RFC_4122.UUID.swift
 // Core 128-bit UUID type per RFC 4122
 
-import ASCII
+import ASCII_Primitives
 import Standard_Library_Extensions
 
 #if os(macOS) || os(iOS) || os(tvOS) || os(watchOS) || os(visionOS)
@@ -185,7 +185,7 @@ extension RFC_4122.UUID {
         case 36:
             // Hyphenated format: xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx
             // Validate hyphens at byte positions 8, 13, 18, 23
-            let hyphen = Binary.ASCII.hyphen
+            let hyphen = UInt8(ascii: "-")
             guard utf8[utf8.startIndex + 8] == hyphen,
                   utf8[utf8.startIndex + 13] == hyphen,
                   utf8[utf8.startIndex + 18] == hyphen,
@@ -220,10 +220,10 @@ extension RFC_4122.UUID {
 
         @inline(always)
         func byte(at highPos: Int, _ lowPos: Int) throws(Error) -> UInt8 {
-            guard let high = Binary.ASCII.ascii(hexDigit: utf8[start + highPos]),
-                  let low = Binary.ASCII.ascii(hexDigit: utf8[start + lowPos]) else {
+            guard let high = ASCII.Parsing.hexDigit( utf8[start + highPos]),
+                  let low = ASCII.Parsing.hexDigit( utf8[start + lowPos]) else {
                 // Find which position failed for error reporting
-                let failPos = Binary.ASCII.ascii(hexDigit: utf8[start + highPos]) == nil ? highPos : lowPos
+                let failPos = ASCII.Parsing.hexDigit( utf8[start + highPos]) == nil ? highPos : lowPos
                 let chars = Array(originalString)
                 throw .invalidCharacter(chars[failPos], at: failPos)
             }
@@ -266,10 +266,10 @@ extension RFC_4122.UUID {
 
         @inline(always)
         func byte(at highPos: Int, _ lowPos: Int) throws(Error) -> UInt8 {
-            guard let high = Binary.ASCII.ascii(hexDigit: utf8[start + highPos]),
-                  let low = Binary.ASCII.ascii(hexDigit: utf8[start + lowPos]) else {
+            guard let high = ASCII.Parsing.hexDigit( utf8[start + highPos]),
+                  let low = ASCII.Parsing.hexDigit( utf8[start + lowPos]) else {
                 // Find which position failed for error reporting
-                let failPos = Binary.ASCII.ascii(hexDigit: utf8[start + highPos]) == nil ? highPos : lowPos
+                let failPos = ASCII.Parsing.hexDigit( utf8[start + highPos]) == nil ? highPos : lowPos
                 let chars = Array(originalString)
                 throw .invalidCharacter(chars[failPos], at: failPos)
             }

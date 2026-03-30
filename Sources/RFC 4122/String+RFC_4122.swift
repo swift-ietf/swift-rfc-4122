@@ -1,7 +1,7 @@
 // String+RFC_4122.swift
 // String representation and formatting for UUIDs
 
-import ASCII
+import ASCII_Primitives
 
 extension RFC_4122.UUID: CustomStringConvertible {
     /// The UUID as a lowercase hyphenated string.
