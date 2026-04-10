@@ -6,13 +6,13 @@ import Standard_Library_Extensions
 
 #if os(macOS) || os(iOS) || os(tvOS) || os(watchOS) || os(visionOS)
 import Darwin_Primitives
-import Darwin_Kernel_Primitives
+import Darwin_Kernel_Standard
 #elseif os(Linux)
 import Linux_Primitives
-import Linux_Kernel_Primitives
+import Linux_Kernel_Standard
 #elseif os(Windows)
 import Windows_Primitives
-import Windows_Kernel_Primitives
+import Windows_Kernel_Standard
 #endif
 
 extension RFC_4122 {
