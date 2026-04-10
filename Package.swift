@@ -21,9 +21,9 @@ let package = Package(
         .package(path: "../../swift-primitives/swift-ascii-primitives"),
         .package(path: "../../swift-primitives/swift-standard-library-extensions"),
         .package(path: "../../swift-primitives/swift-dependency-primitives"),
-        .package(path: "../../swift-primitives/swift-darwin-primitives"),
+        .package(path: "../../swift-standards/swift-darwin-standard"),
         .package(path: "../../swift-linux-foundation/swift-linux-standard"),
-        .package(path: "../../swift-primitives/swift-windows-primitives")
+        .package(path: "../../swift-microsoft/swift-windows-standard")
     ],
     targets: [
         .target(
@@ -32,17 +32,17 @@ let package = Package(
                 .product(name: "ASCII Primitives", package: "swift-ascii-primitives"),
                 .product(name: "Standard Library Extensions", package: "swift-standard-library-extensions"),
                 .product(name: "Dependency Primitives", package: "swift-dependency-primitives"),
-                .product(name: "Darwin Primitives", package: "swift-darwin-primitives",
+                .product(name: "Darwin Primitives", package: "swift-darwin-standard",
                          condition: .when(platforms: [.macOS, .iOS, .tvOS, .watchOS, .visionOS])),
-                .product(name: "Darwin Kernel Primitives", package: "swift-darwin-primitives",
+                .product(name: "Darwin Kernel Primitives", package: "swift-darwin-standard",
                          condition: .when(platforms: [.macOS, .iOS, .tvOS, .watchOS, .visionOS])),
                 .product(name: "Linux Primitives", package: "swift-linux-standard",
                          condition: .when(platforms: [.linux])),
                 .product(name: "Linux Kernel Primitives", package: "swift-linux-standard",
                          condition: .when(platforms: [.linux])),
-                .product(name: "Windows Primitives", package: "swift-windows-primitives",
+                .product(name: "Windows Primitives", package: "swift-windows-standard",
                          condition: .when(platforms: [.windows])),
-                .product(name: "Windows Kernel Primitives", package: "swift-windows-primitives",
+                .product(name: "Windows Kernel Primitives", package: "swift-windows-standard",
                          condition: .when(platforms: [.windows]))
             ]
         ),
