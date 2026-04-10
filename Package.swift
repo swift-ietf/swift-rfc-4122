@@ -22,7 +22,7 @@ let package = Package(
         .package(path: "../../swift-primitives/swift-standard-library-extensions"),
         .package(path: "../../swift-primitives/swift-dependency-primitives"),
         .package(path: "../../swift-primitives/swift-darwin-primitives"),
-        .package(path: "../../swift-primitives/swift-linux-primitives"),
+        .package(path: "../../swift-linux-foundation/swift-linux-standard"),
         .package(path: "../../swift-primitives/swift-windows-primitives")
     ],
     targets: [
@@ -36,9 +36,9 @@ let package = Package(
                          condition: .when(platforms: [.macOS, .iOS, .tvOS, .watchOS, .visionOS])),
                 .product(name: "Darwin Kernel Primitives", package: "swift-darwin-primitives",
                          condition: .when(platforms: [.macOS, .iOS, .tvOS, .watchOS, .visionOS])),
-                .product(name: "Linux Primitives", package: "swift-linux-primitives",
+                .product(name: "Linux Primitives", package: "swift-linux-standard",
                          condition: .when(platforms: [.linux])),
-                .product(name: "Linux Kernel Primitives", package: "swift-linux-primitives",
+                .product(name: "Linux Kernel Primitives", package: "swift-linux-standard",
                          condition: .when(platforms: [.linux])),
                 .product(name: "Windows Primitives", package: "swift-windows-primitives",
                          condition: .when(platforms: [.windows])),
