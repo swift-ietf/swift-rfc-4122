@@ -21,8 +21,8 @@ extension RFC_4122.UUID.Test {
 
 extension RFC_4122.UUID.Test.FoundationComparison {
 
-    @Test("Parse: RFC_4122.UUID vs Foundation.UUID")
-    func parsingComparison() {
+    @Test
+    func `Parse: RFC_4122.UUID vs Foundation.UUID`() {
         let input = "550e8400-e29b-41d4-a716-446655440000"
 
         let rfc4122 = Benchmark.measure(iterations: 1000, warmup: 100, name: "RFC_4122.UUID parsing") {
@@ -36,8 +36,8 @@ extension RFC_4122.UUID.Test.FoundationComparison {
         printComparison("Parsing", rfc4122: rfc4122, foundation: foundation)
     }
 
-    @Test("Parse batch: RFC_4122.UUID vs Foundation.UUID (1000 UUIDs)")
-    func parsingBatchComparison() {
+    @Test
+    func `Parse batch: RFC_4122.UUID vs Foundation.UUID (1000 UUIDs)`() {
         let input = "550e8400-e29b-41d4-a716-446655440000"
 
         let rfc4122 = Benchmark.measure(iterations: 10, warmup: 2, name: "RFC_4122 parse x1000") {
@@ -60,8 +60,8 @@ extension RFC_4122.UUID.Test.FoundationComparison {
 
 extension RFC_4122.UUID.Test.FoundationComparison {
 
-    @Test("Format: RFC_4122.UUID vs Foundation.UUID")
-    func formattingComparison() throws {
+    @Test
+    func `Format: RFC_4122.UUID vs Foundation.UUID`() throws {
         let rfc4122UUID = try RFC_4122.UUID("550e8400-e29b-41d4-a716-446655440000")
         let foundationUUID = Foundation.UUID(uuidString: "550e8400-e29b-41d4-a716-446655440000")!
 
@@ -76,8 +76,8 @@ extension RFC_4122.UUID.Test.FoundationComparison {
         printComparison("Formatting", rfc4122: rfc4122, foundation: foundation)
     }
 
-    @Test("Format lowercase: RFC_4122.UUID vs Foundation.UUID")
-    func formattingLowercaseComparison() throws {
+    @Test
+    func `Format lowercase: RFC_4122.UUID vs Foundation.UUID`() throws {
         let rfc4122UUID = try RFC_4122.UUID("550e8400-e29b-41d4-a716-446655440000")
         let foundationUUID = Foundation.UUID(uuidString: "550e8400-e29b-41d4-a716-446655440000")!
 
@@ -98,8 +98,8 @@ extension RFC_4122.UUID.Test.FoundationComparison {
 
 extension RFC_4122.UUID.Test.FoundationComparison {
 
-    @Test("Random generation: RFC_4122.UUID vs Foundation.UUID")
-    func randomGenerationComparison() {
+    @Test
+    func `Random generation: RFC_4122.UUID vs Foundation.UUID`() {
         let rfc4122 = Benchmark.measure(iterations: 1000, warmup: 100, name: "RFC_4122.UUID.v4") {
             _ = try? RFC_4122.UUID.v4(using: SystemRandom())
         }
@@ -111,8 +111,8 @@ extension RFC_4122.UUID.Test.FoundationComparison {
         printComparison("Random Generation", rfc4122: rfc4122, foundation: foundation)
     }
 
-    @Test("Random generation batch: 1000 UUIDs")
-    func randomGenerationBatchComparison() {
+    @Test
+    func `Random generation batch: 1000 UUIDs`() {
         let random = SystemRandom()
 
         let rfc4122 = Benchmark.measure(iterations: 10, warmup: 2, name: "RFC_4122 v4 x1000") {
@@ -135,8 +135,8 @@ extension RFC_4122.UUID.Test.FoundationComparison {
 
 extension RFC_4122.UUID.Test.FoundationComparison {
 
-    @Test("Equality: RFC_4122.UUID vs Foundation.UUID")
-    func equalityComparison() throws {
+    @Test
+    func `Equality: RFC_4122.UUID vs Foundation.UUID`() throws {
         let rfc1 = try RFC_4122.UUID("550e8400-e29b-41d4-a716-446655440000")
         let rfc2 = try RFC_4122.UUID("550e8400-e29b-41d4-a716-446655440000")
         let found1 = Foundation.UUID(uuidString: "550e8400-e29b-41d4-a716-446655440000")!
@@ -153,8 +153,8 @@ extension RFC_4122.UUID.Test.FoundationComparison {
         printComparison("Equality", rfc4122: rfc4122, foundation: foundation)
     }
 
-    @Test("Hashing: RFC_4122.UUID vs Foundation.UUID")
-    func hashingComparison() throws {
+    @Test
+    func `Hashing: RFC_4122.UUID vs Foundation.UUID`() throws {
         let rfc = try RFC_4122.UUID("550e8400-e29b-41d4-a716-446655440000")
         let found = Foundation.UUID(uuidString: "550e8400-e29b-41d4-a716-446655440000")!
 
@@ -174,8 +174,8 @@ extension RFC_4122.UUID.Test.FoundationComparison {
 
 extension RFC_4122.UUID.Test.FoundationComparison {
 
-    @Test("Memory layout comparison")
-    func memoryLayout() {
+    @Test
+    func `Memory layout comparison`() {
         let rfc4122Size = MemoryLayout<RFC_4122.UUID>.size
         let rfc4122Stride = MemoryLayout<RFC_4122.UUID>.stride
         let rfc4122Alignment = MemoryLayout<RFC_4122.UUID>.alignment
