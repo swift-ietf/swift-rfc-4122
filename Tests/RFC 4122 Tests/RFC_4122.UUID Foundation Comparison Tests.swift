@@ -3,7 +3,7 @@
 
 import Testing
 import Time_Primitives
-import Formatting_Primitives
+import Format_Primitives
 import Foundation
 @testable import RFC_4122
 
