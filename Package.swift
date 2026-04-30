@@ -23,7 +23,7 @@ let package = Package(
         .package(path: "../../swift-primitives/swift-dependency-primitives"),
         .package(path: "../../swift-standards/swift-darwin-standard"),
         .package(path: "../../swift-linux-foundation/swift-linux-standard"),
-        .package(path: "../../swift-microsoft/swift-windows-standard")
+        .package(path: "../../swift-microsoft/swift-windows-32")
     ],
     targets: [
         .target(
@@ -36,7 +36,7 @@ let package = Package(
                          condition: .when(platforms: [.macOS, .iOS, .tvOS, .watchOS, .visionOS])),
                 .product(name: "Linux Kernel Standard", package: "swift-linux-standard",
                          condition: .when(platforms: [.linux])),
-                .product(name: "Windows Kernel Standard", package: "swift-windows-standard",
+                .product(name: "Windows 32 Kernel", package: "swift-windows-32",
                          condition: .when(platforms: [.windows]))
             ]
         ),
