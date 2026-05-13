@@ -4,17 +4,6 @@
 import ASCII_Primitives
 import Standard_Library_Extensions
 
-#if os(macOS) || os(iOS) || os(tvOS) || os(watchOS) || os(visionOS)
-import Darwin_Primitives
-import Darwin_Kernel_Standard
-#elseif os(Linux)
-import Linux_Primitives
-import Linux_Kernel_Standard
-#elseif os(Windows)
-import Windows_Primitives
-import Windows_Kernel_Standard
-#endif
-
 extension RFC_4122 {
     /// A 128-bit universally unique identifier per RFC 4122.
     ///
@@ -141,30 +130,14 @@ extension RFC_4122.UUID {
 // MARK: - Parsing
 
 extension RFC_4122.UUID {
-    /// Parses a UUID string using native platform APIs when available.
+    /// Parses a UUID string into raw bytes.
     ///
-    /// For 36-character hyphenated format, uses native `uuid_parse` (Darwin/Linux)
-    /// or `UuidFromStringA` (Windows) for near-Foundation performance.
-    /// Falls back to pure Swift for compact format or unsupported platforms.
+    /// Accepts the 36-character hyphenated format
+    /// (`xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx`) and the 32-character compact
+    /// format. Parsing is case-insensitive. The implementation is pure
+    /// Swift and platform-neutral; L3 unifiers that bind a platform CSPRNG
+    /// (see swift-uuids) compose this parse path without modification.
     private static func parse(_ string: Swift.String) throws(Error) -> Self {
-        // Try native parsing first for hyphenated format (36 chars)
-        if string.utf8.count == 36 {
-            #if os(macOS) || os(iOS) || os(tvOS) || os(watchOS) || os(visionOS)
-            if let bytes = Darwin_Primitives.Darwin.Identity.UUID.parse(string) {
-                return Self(bytes: bytes)
-            }
-            #elseif os(Linux)
-            if let bytes = Linux_Primitives.Linux.Identity.UUID.parse(string) {
-                return Self(bytes: bytes)
-            }
-            #elseif os(Windows)
-            if let bytes = Windows_Primitives.Windows.Identity.UUID.parse(string) {
-                return Self(bytes: bytes)
-            }
-            #endif
-        }
-
-        // Fallback to pure Swift (handles compact format + detailed errors)
         return try parseUTF8(Array(string.utf8), originalString: string)
     }
 

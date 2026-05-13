@@ -50,12 +50,17 @@ extension RFC_4122.Random: RFC_4122.RandomProvider {
 extension RFC_4122.Random: Dependency.Key {
     public typealias Value = RFC_4122.Random
 
+    /// - Important: `RFC_4122.Random.liveValue` traps at the L2 spec layer.
+    ///   The L2 RFC 4122 encoding parameterises over a random source; the
+    ///   platform CSPRNG binding lives at L3 in the `swift-uuids` unifier
+    ///   per [PLAT-ARCH-009]. To generate a v4 UUID with the platform
+    ///   CSPRNG, depend on `swift-uuids` and call `RFC_4122.UUID.v4()`.
+    ///   Power users at L2 may inject an explicit `RFC_4122.Random` via
+    ///   `Dependency.Scope.with` for testing or alternative random sources.
     public static var liveValue: RFC_4122.Random {
-        RFC_4122.Random { buffer in
-            for i in buffer.indices {
-                buffer[i] = .random(in: .min ... .max)
-            }
-        }
+        fatalError(
+            "RFC_4122.Random.liveValue must be bound by an L3 unifier; consume swift-uuids instead"
+        )
     }
 
     public static var testValue: RFC_4122.Random {

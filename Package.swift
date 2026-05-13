@@ -21,9 +21,6 @@ let package = Package(
         .package(path: "../../swift-primitives/swift-ascii-primitives"),
         .package(path: "../../swift-primitives/swift-standard-library-extensions"),
         .package(path: "../../swift-primitives/swift-dependency-primitives"),
-        .package(path: "../../swift-standards/swift-darwin-standard"),
-        .package(path: "../../swift-linux-foundation/swift-linux-standard"),
-        .package(path: "../../swift-microsoft/swift-windows-32")
     ],
     targets: [
         .target(
@@ -32,12 +29,6 @@ let package = Package(
                 .product(name: "ASCII Primitives", package: "swift-ascii-primitives"),
                 .product(name: "Standard Library Extensions", package: "swift-standard-library-extensions"),
                 .product(name: "Dependency Primitives", package: "swift-dependency-primitives"),
-                .product(name: "Darwin Kernel Standard", package: "swift-darwin-standard",
-                         condition: .when(platforms: [.macOS, .iOS, .tvOS, .watchOS, .visionOS])),
-                .product(name: "Linux Kernel Standard", package: "swift-linux-standard",
-                         condition: .when(platforms: [.linux])),
-                .product(name: "Windows 32 Kernel", package: "swift-windows-32",
-                         condition: .when(platforms: [.windows]))
             ]
         ),
         .testTarget(
