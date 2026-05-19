@@ -138,7 +138,7 @@ extension RFC_4122.UUID {
     /// Swift and platform-neutral; L3 unifiers that bind a platform CSPRNG
     /// (see swift-uuids) compose this parse path without modification.
     private static func parse(_ string: Swift.String) throws(Error) -> Self {
-        return try parseUTF8(Array(string.utf8), originalString: string)
+        return try parseUTF8(Array<Byte>(string.utf8), originalString: string)
     }
 
     /// Parses UUID from UTF-8 bytes.
@@ -151,37 +151,41 @@ extension RFC_4122.UUID {
     private static func parseUTF8<C: Collection>(
         _ utf8: C,
         originalString: Swift.String
-    ) throws(Error) -> Self where C.Element == UInt8, C.Index == Int {
+    ) throws(Error) -> Self where C.Element == Byte, C.Index == Int {
         let count = utf8.count
+
+        // Type-up: lift to ASCII.Code at the entry boundary so the body works
+        // against ASCII.Code constants directly (RFC 4122 UUID grammar is strict
+        // ASCII; non-ASCII bytes are fail-state via hex-digit decode).
+        let arr = Array<ASCII.Code>(utf8)
 
         switch count {
         case 36:
             // Hyphenated format: xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx
             // Validate hyphens at byte positions 8, 13, 18, 23
-            let hyphen = UInt8.ascii.hyphen
-            guard utf8[utf8.startIndex + 8] == hyphen,
-                  utf8[utf8.startIndex + 13] == hyphen,
-                  utf8[utf8.startIndex + 18] == hyphen,
-                  utf8[utf8.startIndex + 23] == hyphen else {
+            guard arr[8] == ASCII.Code.hyphen,
+                  arr[13] == ASCII.Code.hyphen,
+                  arr[18] == ASCII.Code.hyphen,
+                  arr[23] == ASCII.Code.hyphen else {
                 throw .invalidFormat
             }
-            return try parseHyphenatedUTF8(utf8, originalString: originalString)
+            return try parseHyphenatedUTF8(arr, originalString: originalString)
 
         case 32:
             // Compact format: no hyphens
-            return try parseCompactUTF8(utf8, originalString: originalString)
+            return try parseCompactUTF8(arr, originalString: originalString)
 
         default:
             throw .invalidLength
         }
     }
 
-    /// Parses hyphenated format (36 bytes): xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx
+    /// Parses hyphenated format (36 codes): xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx
     @inline(always)
-    private static func parseHyphenatedUTF8<C: Collection>(
-        _ utf8: C,
+    private static func parseHyphenatedUTF8(
+        _ codes: [ASCII.Code],
         originalString: Swift.String
-    ) throws(Error) -> Self where C.Element == UInt8, C.Index == Int {
+    ) throws(Error) -> Self {
         // Hex digit positions in hyphenated format (skipping hyphens at 8, 13, 18, 23)
         // Group 1: 0-7   (8 hex digits = 4 bytes)
         // Group 2: 9-12  (4 hex digits = 2 bytes)
@@ -189,14 +193,12 @@ extension RFC_4122.UUID {
         // Group 4: 19-22 (4 hex digits = 2 bytes)
         // Group 5: 24-35 (12 hex digits = 6 bytes)
 
-        let start = utf8.startIndex
-
         @inline(always)
         func byte(at highPos: Int, _ lowPos: Int) throws(Error) -> UInt8 {
-            guard let high = ASCII.Parsing.hexDigit( utf8[start + highPos]),
-                  let low = ASCII.Parsing.hexDigit( utf8[start + lowPos]) else {
+            guard let high = codes[highPos].hexValue,
+                  let low = codes[lowPos].hexValue else {
                 // Find which position failed for error reporting
-                let failPos = ASCII.Parsing.hexDigit( utf8[start + highPos]) == nil ? highPos : lowPos
+                let failPos = codes[highPos].hexValue == nil ? highPos : lowPos
                 let chars = Array(originalString)
                 throw .invalidCharacter(chars[failPos], at: failPos)
             }
@@ -229,20 +231,18 @@ extension RFC_4122.UUID {
         ))
     }
 
-    /// Parses compact format (32 bytes): xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+    /// Parses compact format (32 codes): xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
     @inline(always)
-    private static func parseCompactUTF8<C: Collection>(
-        _ utf8: C,
+    private static func parseCompactUTF8(
+        _ codes: [ASCII.Code],
         originalString: Swift.String
-    ) throws(Error) -> Self where C.Element == UInt8, C.Index == Int {
-        let start = utf8.startIndex
-
+    ) throws(Error) -> Self {
         @inline(always)
         func byte(at highPos: Int, _ lowPos: Int) throws(Error) -> UInt8 {
-            guard let high = ASCII.Parsing.hexDigit( utf8[start + highPos]),
-                  let low = ASCII.Parsing.hexDigit( utf8[start + lowPos]) else {
+            guard let high = codes[highPos].hexValue,
+                  let low = codes[lowPos].hexValue else {
                 // Find which position failed for error reporting
-                let failPos = ASCII.Parsing.hexDigit( utf8[start + highPos]) == nil ? highPos : lowPos
+                let failPos = codes[highPos].hexValue == nil ? highPos : lowPos
                 let chars = Array(originalString)
                 throw .invalidCharacter(chars[failPos], at: failPos)
             }
