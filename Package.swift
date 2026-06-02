@@ -18,9 +18,9 @@ let package = Package(
         )
     ],
     dependencies: [
-        .package(path: "../../swift-primitives/swift-ascii-primitives"),
-        .package(path: "../../swift-primitives/swift-standard-library-extensions"),
-        .package(path: "../../swift-primitives/swift-dependency-primitives"),
+        .package(url: "https://github.com/swift-primitives/swift-ascii-primitives.git", branch: "main"),
+        .package(url: "https://github.com/swift-primitives/swift-standard-library-extensions.git", branch: "main"),
+        .package(url: "https://github.com/swift-primitives/swift-dependency-primitives.git", branch: "main"),
     ],
     targets: [
         .target(
