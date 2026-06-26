@@ -156,8 +156,11 @@ extension RFC_4122.UUID {
 
         // Type-up: lift to ASCII.Code at the entry boundary so the body works
         // against ASCII.Code constants directly (RFC 4122 UUID grammar is strict
-        // ASCII; non-ASCII bytes are fail-state via hex-digit decode).
-        let arr = Array<ASCII.Code>(utf8)
+        // ASCII; non-ASCII bytes are fail-state via hex-digit decode). Wrap each
+        // byte through the non-throwing `ASCII.Code(_ underlying: UInt8)` rather
+        // than the validating `Array<ASCII.Code>(_:)` bridge, preserving the
+        // documented decode-time fail-state (no early throw at the boundary).
+        let arr: [ASCII.Code] = utf8.map { ASCII.Code($0.underlying) }
 
         switch count {
         case 36:
