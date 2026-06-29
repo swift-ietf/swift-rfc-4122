@@ -42,8 +42,8 @@ extension RFC_4122.UUID {
         @inline(always)
         func hex(_ nibble: UInt8) -> UInt8 {
             uppercase
-                ? ASCII.Serialization.hexDigitUppercase(nibble)!.underlying
-                : ASCII.Serialization.hexDigitLowercase(nibble)!.underlying
+                ? ASCII.Hexadecimal.code(nibble, case: .upper)!.underlying
+                : ASCII.Hexadecimal.code(nibble, case: .lower)!.underlying
         }
 
         let capacity = format == .hyphenated ? 36 : 32
