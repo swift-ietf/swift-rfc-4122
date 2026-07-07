@@ -1,6 +1,7 @@
 // RFC_4122.UUID Tests.swift
 
 import Testing
+
 @testable import RFC_4122
 
 extension RFC_4122.UUID {
@@ -50,7 +51,7 @@ extension RFC_4122.UUID.Test.Unit {
             0x55, 0x0e, 0x84, 0x00,
             0xe2, 0x9b, 0x41, 0xd4,
             0xa7, 0x16, 0x44, 0x66,
-            0x55, 0x44, 0x00, 0x00
+            0x55, 0x44, 0x00, 0x00,
         ]
         let uuid = try RFC_4122.UUID(bytes)
         #expect(uuid.description == "550e8400-e29b-41d4-a716-446655440000")
@@ -279,7 +280,7 @@ private struct TestHashProvider: RFC_4122.HashProvider {
                 0x5d, 0xf4, 0x18, 0x81,
                 0x3a, 0xed, 0x35, 0x15,  // byte 6 will have high nibble set to 0x3
                 0x88, 0xa7, 0x2f, 0x4a,  // byte 8 will have high 2 bits set to 0x80
-                0x81, 0x4c, 0xf0, 0x9e
+                0x81, 0x4c, 0xf0, 0x9e,
             ]
         }
         // Default: return zeros (will still produce valid UUID structure)
@@ -297,7 +298,7 @@ private struct TestHashProvider: RFC_4122.HashProvider {
                 0xe9, 0x27, 0x56, 0x8b,  // byte 6 will have high nibble set to 0x5
                 0x95, 0xe1, 0x26, 0x65,  // byte 8 will have high 2 bits set to 0x80
                 0xa8, 0xae, 0xa6, 0xa2,
-                0x00, 0x00, 0x00, 0x00   // SHA-1 is 20 bytes, last 4 not used
+                0x00, 0x00, 0x00, 0x00,  // SHA-1 is 20 bytes, last 4 not used
             ]
         }
         return [UInt8](repeating: 0, count: 20)

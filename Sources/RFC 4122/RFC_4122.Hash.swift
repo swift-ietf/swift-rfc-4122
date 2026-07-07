@@ -4,7 +4,7 @@
 public import Dependency_Primitives
 
 #if canImport(CryptoKit)
-internal import CryptoKit
+    internal import CryptoKit
 #endif
 
 extension RFC_4122 {
@@ -56,27 +56,27 @@ extension RFC_4122.Hash: Dependency.Key {
 
     public static var liveValue: RFC_4122.Hash {
         #if canImport(CryptoKit)
-        RFC_4122.Hash(
-            md5: { data in
-                var hasher = Insecure.MD5()
-                data.withUnsafeBufferPointer {
-                    hasher.update(bufferPointer: UnsafeRawBufferPointer($0))
+            RFC_4122.Hash(
+                md5: { data in
+                    var hasher = Insecure.MD5()
+                    data.withUnsafeBufferPointer {
+                        hasher.update(bufferPointer: UnsafeRawBufferPointer($0))
+                    }
+                    return Array(hasher.finalize())
+                },
+                sha1: { data in
+                    var hasher = Insecure.SHA1()
+                    data.withUnsafeBufferPointer {
+                        hasher.update(bufferPointer: UnsafeRawBufferPointer($0))
+                    }
+                    return Array(hasher.finalize())
                 }
-                return Array(hasher.finalize())
-            },
-            sha1: { data in
-                var hasher = Insecure.SHA1()
-                data.withUnsafeBufferPointer {
-                    hasher.update(bufferPointer: UnsafeRawBufferPointer($0))
-                }
-                return Array(hasher.finalize())
-            }
-        )
+            )
         #else
-        fatalError(
-            "RFC_4122.Hash.liveValue unavailable on this platform. "
-            + "Inject a hash provider via Dependency.Scope.with { $0[RFC_4122.Hash.self] = ... }"
-        )
+            fatalError(
+                "RFC_4122.Hash.liveValue unavailable on this platform. "
+                    + "Inject a hash provider via Dependency.Scope.with { $0[RFC_4122.Hash.self] = ... }"
+            )
         #endif
     }
 

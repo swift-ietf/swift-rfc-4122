@@ -1,10 +1,11 @@
 // RFC_4122.UUID Foundation Comparison Tests.swift
 // Performance comparison between RFC_4122.UUID and Foundation.UUID
 
-import Testing
-import Time_Primitives
 import Format_Primitives
 import Foundation
+import Testing
+import Time_Primitives
+
 @testable import RFC_4122
 
 // Disambiguate from Foundation.Measurement
@@ -89,8 +90,12 @@ extension RFC_4122.UUID.Test.FoundationComparison {
             _ = foundationUUID.uuidString.lowercased()
         }
 
-        printComparison("Lowercase Formatting", rfc4122: rfc4122, foundation: foundation,
-                       note: "RFC_4122 native lowercase vs Foundation + .lowercased()")
+        printComparison(
+            "Lowercase Formatting",
+            rfc4122: rfc4122,
+            foundation: foundation,
+            note: "RFC_4122 native lowercase vs Foundation + .lowercased()"
+        )
     }
 }
 
@@ -184,13 +189,15 @@ extension RFC_4122.UUID.Test.FoundationComparison {
         let foundationStride = MemoryLayout<Foundation.UUID>.stride
         let foundationAlignment = MemoryLayout<Foundation.UUID>.alignment
 
-        print("""
+        print(
+            """
 
             📊 Memory Layout:
                RFC_4122.UUID:   size=\(rfc4122Size) stride=\(rfc4122Stride) align=\(rfc4122Alignment)
                Foundation.UUID: size=\(foundationSize) stride=\(foundationStride) align=\(foundationAlignment)
                Equal: \(rfc4122Size == foundationSize && rfc4122Stride == foundationStride)
-            """)
+            """
+        )
 
         #expect(rfc4122Size == 16, "RFC_4122.UUID should be exactly 16 bytes")
         #expect(foundationSize == 16, "Foundation.UUID should be exactly 16 bytes")

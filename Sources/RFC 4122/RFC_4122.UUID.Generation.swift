@@ -43,42 +43,50 @@ extension RFC_4122.UUID {
     /// Namespace UUID for DNS names (RFC 4122 Appendix C).
     ///
     /// UUID: `6ba7b810-9dad-11d1-80b4-00c04fd430c8`
-    public static let dns = Self(bytes: (
-        0x6b, 0xa7, 0xb8, 0x10,
-        0x9d, 0xad, 0x11, 0xd1,
-        0x80, 0xb4, 0x00, 0xc0,
-        0x4f, 0xd4, 0x30, 0xc8
-    ))
+    public static let dns = Self(
+        bytes: (
+            0x6b, 0xa7, 0xb8, 0x10,
+            0x9d, 0xad, 0x11, 0xd1,
+            0x80, 0xb4, 0x00, 0xc0,
+            0x4f, 0xd4, 0x30, 0xc8
+        )
+    )
 
     /// Namespace UUID for URLs (RFC 4122 Appendix C).
     ///
     /// UUID: `6ba7b811-9dad-11d1-80b4-00c04fd430c8`
-    public static let url = Self(bytes: (
-        0x6b, 0xa7, 0xb8, 0x11,
-        0x9d, 0xad, 0x11, 0xd1,
-        0x80, 0xb4, 0x00, 0xc0,
-        0x4f, 0xd4, 0x30, 0xc8
-    ))
+    public static let url = Self(
+        bytes: (
+            0x6b, 0xa7, 0xb8, 0x11,
+            0x9d, 0xad, 0x11, 0xd1,
+            0x80, 0xb4, 0x00, 0xc0,
+            0x4f, 0xd4, 0x30, 0xc8
+        )
+    )
 
     /// Namespace UUID for ISO OIDs (RFC 4122 Appendix C).
     ///
     /// UUID: `6ba7b812-9dad-11d1-80b4-00c04fd430c8`
-    public static let oid = Self(bytes: (
-        0x6b, 0xa7, 0xb8, 0x12,
-        0x9d, 0xad, 0x11, 0xd1,
-        0x80, 0xb4, 0x00, 0xc0,
-        0x4f, 0xd4, 0x30, 0xc8
-    ))
+    public static let oid = Self(
+        bytes: (
+            0x6b, 0xa7, 0xb8, 0x12,
+            0x9d, 0xad, 0x11, 0xd1,
+            0x80, 0xb4, 0x00, 0xc0,
+            0x4f, 0xd4, 0x30, 0xc8
+        )
+    )
 
     /// Namespace UUID for X.500 DNs (RFC 4122 Appendix C).
     ///
     /// UUID: `6ba7b814-9dad-11d1-80b4-00c04fd430c8`
-    public static let x500 = Self(bytes: (
-        0x6b, 0xa7, 0xb8, 0x14,
-        0x9d, 0xad, 0x11, 0xd1,
-        0x80, 0xb4, 0x00, 0xc0,
-        0x4f, 0xd4, 0x30, 0xc8
-    ))
+    public static let x500 = Self(
+        bytes: (
+            0x6b, 0xa7, 0xb8, 0x14,
+            0x9d, 0xad, 0x11, 0xd1,
+            0x80, 0xb4, 0x00, 0xc0,
+            0x4f, 0xd4, 0x30, 0xc8
+        )
+    )
 }
 
 // MARK: - Version 3 Generation (MD5)
@@ -256,12 +264,13 @@ extension RFC_4122.UUID {
     public static func v4<R: RFC_4122.RandomProvider>(
         using random: R
     ) throws(R.RandomError) -> Self {
-        var bytes: (
-            UInt8, UInt8, UInt8, UInt8,
-            UInt8, UInt8, UInt8, UInt8,
-            UInt8, UInt8, UInt8, UInt8,
-            UInt8, UInt8, UInt8, UInt8
-        ) = (0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)
+        var bytes:
+            (
+                UInt8, UInt8, UInt8, UInt8,
+                UInt8, UInt8, UInt8, UInt8,
+                UInt8, UInt8, UInt8, UInt8,
+                UInt8, UInt8, UInt8, UInt8
+            ) = (0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)
 
         let outcome: Result<Void, R.RandomError> = Swift.withUnsafeMutableBytes(of: &bytes) { buffer in
             do throws(R.RandomError) {
@@ -290,12 +299,13 @@ extension RFC_4122.UUID {
     public static func v4<E: Swift.Error>(
         fillRandom: (UnsafeMutableRawBufferPointer) throws(E) -> Void
     ) throws(E) -> Self {
-        var bytes: (
-            UInt8, UInt8, UInt8, UInt8,
-            UInt8, UInt8, UInt8, UInt8,
-            UInt8, UInt8, UInt8, UInt8,
-            UInt8, UInt8, UInt8, UInt8
-        ) = (0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)
+        var bytes:
+            (
+                UInt8, UInt8, UInt8, UInt8,
+                UInt8, UInt8, UInt8, UInt8,
+                UInt8, UInt8, UInt8, UInt8,
+                UInt8, UInt8, UInt8, UInt8
+            ) = (0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)
 
         let outcome: Result<Void, E> = Swift.withUnsafeMutableBytes(of: &bytes) { buffer in
             do throws(E) {

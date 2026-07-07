@@ -33,22 +33,25 @@ extension RFC_4122 {
         /// - Byte 8: clock_seq_hi_and_reserved
         /// - Byte 9: clock_seq_low
         /// - Bytes 10-15: node
-        public var bytes: (
-            UInt8, UInt8, UInt8, UInt8,
-            UInt8, UInt8, UInt8, UInt8,
-            UInt8, UInt8, UInt8, UInt8,
-            UInt8, UInt8, UInt8, UInt8
-        )
+        public var bytes:
+            (
+                UInt8, UInt8, UInt8, UInt8,
+                UInt8, UInt8, UInt8, UInt8,
+                UInt8, UInt8, UInt8, UInt8,
+                UInt8, UInt8, UInt8, UInt8
+            )
 
         /// Creates a UUID from raw bytes.
         ///
         /// - Parameter bytes: 16 bytes in big-endian order.
-        public init(bytes: (
-            UInt8, UInt8, UInt8, UInt8,
-            UInt8, UInt8, UInt8, UInt8,
-            UInt8, UInt8, UInt8, UInt8,
-            UInt8, UInt8, UInt8, UInt8
-        )) {
+        public init(
+            bytes: (
+                UInt8, UInt8, UInt8, UInt8,
+                UInt8, UInt8, UInt8, UInt8,
+                UInt8, UInt8, UInt8, UInt8,
+                UInt8, UInt8, UInt8, UInt8
+            )
+        ) {
             self.bytes = bytes
         }
 
@@ -138,7 +141,7 @@ extension RFC_4122.UUID {
     /// Swift and platform-neutral; L3 unifiers that bind a platform CSPRNG
     /// (see swift-uuids) compose this parse path without modification.
     private static func parse(_ string: Swift.String) throws(Error) -> Self {
-        return try parseUTF8(Array<Byte>(string.utf8), originalString: string)
+        return try parseUTF8([Byte](string.utf8), originalString: string)
     }
 
     /// Parses UUID from UTF-8 bytes.
@@ -167,9 +170,10 @@ extension RFC_4122.UUID {
             // Hyphenated format: xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx
             // Validate hyphens at byte positions 8, 13, 18, 23
             guard arr[8] == ASCII.Code.hyphen,
-                  arr[13] == ASCII.Code.hyphen,
-                  arr[18] == ASCII.Code.hyphen,
-                  arr[23] == ASCII.Code.hyphen else {
+                arr[13] == ASCII.Code.hyphen,
+                arr[18] == ASCII.Code.hyphen,
+                arr[23] == ASCII.Code.hyphen
+            else {
                 throw .invalidFormat
             }
             return try parseHyphenatedUTF8(arr, originalString: originalString)
@@ -199,7 +203,8 @@ extension RFC_4122.UUID {
         @inline(always)
         func byte(at highPos: Int, _ lowPos: Int) throws(Error) -> UInt8 {
             guard let high = codes[highPos].hexValue,
-                  let low = codes[lowPos].hexValue else {
+                let low = codes[lowPos].hexValue
+            else {
                 // Find which position failed for error reporting
                 let failPos = codes[highPos].hexValue == nil ? highPos : lowPos
                 let chars = Array(originalString)
@@ -208,30 +213,32 @@ extension RFC_4122.UUID {
             return (high << 4) | low
         }
 
-        return Self(bytes: (
-            // time_low (bytes 0-3)
-            try byte(at: 0, 1),
-            try byte(at: 2, 3),
-            try byte(at: 4, 5),
-            try byte(at: 6, 7),
-            // time_mid (bytes 4-5), after hyphen at 8
-            try byte(at: 9, 10),
-            try byte(at: 11, 12),
-            // time_hi_and_version (bytes 6-7), after hyphen at 13
-            try byte(at: 14, 15),
-            try byte(at: 16, 17),
-            // clock_seq_hi_and_reserved (byte 8), after hyphen at 18
-            try byte(at: 19, 20),
-            // clock_seq_low (byte 9)
-            try byte(at: 21, 22),
-            // node (bytes 10-15), after hyphen at 23
-            try byte(at: 24, 25),
-            try byte(at: 26, 27),
-            try byte(at: 28, 29),
-            try byte(at: 30, 31),
-            try byte(at: 32, 33),
-            try byte(at: 34, 35)
-        ))
+        return Self(
+            bytes: (
+                // time_low (bytes 0-3)
+                try byte(at: 0, 1),
+                try byte(at: 2, 3),
+                try byte(at: 4, 5),
+                try byte(at: 6, 7),
+                // time_mid (bytes 4-5), after hyphen at 8
+                try byte(at: 9, 10),
+                try byte(at: 11, 12),
+                // time_hi_and_version (bytes 6-7), after hyphen at 13
+                try byte(at: 14, 15),
+                try byte(at: 16, 17),
+                // clock_seq_hi_and_reserved (byte 8), after hyphen at 18
+                try byte(at: 19, 20),
+                // clock_seq_low (byte 9)
+                try byte(at: 21, 22),
+                // node (bytes 10-15), after hyphen at 23
+                try byte(at: 24, 25),
+                try byte(at: 26, 27),
+                try byte(at: 28, 29),
+                try byte(at: 30, 31),
+                try byte(at: 32, 33),
+                try byte(at: 34, 35)
+            )
+        )
     }
 
     /// Parses compact format (32 codes): xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
@@ -243,7 +250,8 @@ extension RFC_4122.UUID {
         @inline(always)
         func byte(at highPos: Int, _ lowPos: Int) throws(Error) -> UInt8 {
             guard let high = codes[highPos].hexValue,
-                  let low = codes[lowPos].hexValue else {
+                let low = codes[lowPos].hexValue
+            else {
                 // Find which position failed for error reporting
                 let failPos = codes[highPos].hexValue == nil ? highPos : lowPos
                 let chars = Array(originalString)
@@ -252,23 +260,25 @@ extension RFC_4122.UUID {
             return (high << 4) | low
         }
 
-        return Self(bytes: (
-            try byte(at: 0, 1),
-            try byte(at: 2, 3),
-            try byte(at: 4, 5),
-            try byte(at: 6, 7),
-            try byte(at: 8, 9),
-            try byte(at: 10, 11),
-            try byte(at: 12, 13),
-            try byte(at: 14, 15),
-            try byte(at: 16, 17),
-            try byte(at: 18, 19),
-            try byte(at: 20, 21),
-            try byte(at: 22, 23),
-            try byte(at: 24, 25),
-            try byte(at: 26, 27),
-            try byte(at: 28, 29),
-            try byte(at: 30, 31)
-        ))
+        return Self(
+            bytes: (
+                try byte(at: 0, 1),
+                try byte(at: 2, 3),
+                try byte(at: 4, 5),
+                try byte(at: 6, 7),
+                try byte(at: 8, 9),
+                try byte(at: 10, 11),
+                try byte(at: 12, 13),
+                try byte(at: 14, 15),
+                try byte(at: 16, 17),
+                try byte(at: 18, 19),
+                try byte(at: 20, 21),
+                try byte(at: 22, 23),
+                try byte(at: 24, 25),
+                try byte(at: 26, 27),
+                try byte(at: 28, 29),
+                try byte(at: 30, 31)
+            )
+        )
     }
 }
