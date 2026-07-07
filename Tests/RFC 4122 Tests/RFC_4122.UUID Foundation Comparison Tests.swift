@@ -15,12 +15,12 @@ private typealias PerfMeasurement = Benchmark.Measurement
 
 extension RFC_4122.UUID.Test {
     @Suite("Foundation Comparison", .serialized)
-    struct FoundationComparison {}
+    struct `Foundation Comparison` {}
 }
 
 // MARK: - Parsing Comparison
 
-extension RFC_4122.UUID.Test.FoundationComparison {
+extension RFC_4122.UUID.Test.`Foundation Comparison` {
 
     @Test
     func `Parse: RFC_4122.UUID vs Foundation.UUID`() {
@@ -59,7 +59,7 @@ extension RFC_4122.UUID.Test.FoundationComparison {
 
 // MARK: - Formatting Comparison
 
-extension RFC_4122.UUID.Test.FoundationComparison {
+extension RFC_4122.UUID.Test.`Foundation Comparison` {
 
     @Test
     func `Format: RFC_4122.UUID vs Foundation.UUID`() throws {
@@ -101,7 +101,7 @@ extension RFC_4122.UUID.Test.FoundationComparison {
 
 // MARK: - Random Generation Comparison
 
-extension RFC_4122.UUID.Test.FoundationComparison {
+extension RFC_4122.UUID.Test.`Foundation Comparison` {
 
     @Test
     func `Random generation: RFC_4122.UUID vs Foundation.UUID`() {
@@ -138,7 +138,7 @@ extension RFC_4122.UUID.Test.FoundationComparison {
 
 // MARK: - Equality Comparison
 
-extension RFC_4122.UUID.Test.FoundationComparison {
+extension RFC_4122.UUID.Test.`Foundation Comparison` {
 
     @Test
     func `Equality: RFC_4122.UUID vs Foundation.UUID`() throws {
@@ -177,7 +177,7 @@ extension RFC_4122.UUID.Test.FoundationComparison {
 
 // MARK: - Memory Layout Comparison
 
-extension RFC_4122.UUID.Test.FoundationComparison {
+extension RFC_4122.UUID.Test.`Foundation Comparison` {
 
     @Test
     func `Memory layout comparison`() {
@@ -206,7 +206,9 @@ extension RFC_4122.UUID.Test.FoundationComparison {
 
 // MARK: - System Random Provider
 
-private struct SystemRandom: RFC_4122.RandomProvider {
+private struct SystemRandom: RFC_4122.RandomProvider {}
+
+extension SystemRandom {
     func fill(_ buffer: UnsafeMutableRawBufferPointer) throws(Never) {
         arc4random_buf(buffer.baseAddress!, buffer.count)
     }

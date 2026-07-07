@@ -8,7 +8,7 @@ extension RFC_4122.UUID {
     @Suite
     struct Test {
         @Suite struct Unit {}
-        @Suite struct EdgeCase {}
+        @Suite struct `Edge Case` {}
         @Suite struct Integration {}
     }
 }
@@ -233,7 +233,7 @@ extension RFC_4122.UUID.Test.Unit {
 
 // MARK: - Edge Cases
 
-extension RFC_4122.UUID.Test.EdgeCase {
+extension RFC_4122.UUID.Test.`Edge Case` {
     @Test
     func `Rejects invalid length`() {
         #expect(throws: RFC_4122.UUID.Error.invalidLength) {
@@ -266,7 +266,9 @@ extension RFC_4122.UUID.Test.EdgeCase {
 // MARK: - Generation Tests
 
 /// Mock hash provider with known test vectors for deterministic testing
-private struct TestHashProvider: RFC_4122.HashProvider {
+private struct TestHashProvider: RFC_4122.HashProvider {}
+
+extension TestHashProvider {
     // Known MD5 hash of DNS namespace + "www.example.com"
     // Result should produce UUID: 5df41881-3aed-3515-88a7-2f4a814cf09e
     func md5(_ data: [UInt8]) -> [UInt8] {
@@ -308,7 +310,9 @@ private struct TestHashProvider: RFC_4122.HashProvider {
 /// Mock random provider for v4 testing
 private struct MockRandom: RFC_4122.RandomProvider {
     let pattern: UInt8
+}
 
+extension MockRandom {
     func fill(_ buffer: UnsafeMutableRawBufferPointer) throws(Never) {
         for i in buffer.indices {
             buffer[i] = pattern
