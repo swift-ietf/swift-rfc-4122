@@ -37,7 +37,7 @@ extension RFC_4122 {
 // MARK: - RandomProvider
 
 extension RFC_4122.Random: RFC_4122.RandomProvider {
-    public typealias RandomError = Error
+    public typealias RandomError = RFC_4122.Random.Error
 
     @inlinable
     public func fill(_ buffer: UnsafeMutableRawBufferPointer) throws(Error) {

@@ -234,7 +234,7 @@ private func printComparison(
            Ratio:           \(ratioStr)
         """
 
-    if let note = note {
+    if let note {
         output += "\n       Note: \(note)"
     }
 

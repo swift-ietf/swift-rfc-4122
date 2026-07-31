@@ -10,7 +10,7 @@ extension RFC_4122 {
     /// for v4 UUID generation. The implementation should use a CSPRNG.
     public protocol RandomProvider: Sendable {
         /// Error type thrown by the random provider.
-        associatedtype RandomError: Error
+        associatedtype RandomError: Swift.Error
 
         /// Fills the buffer with cryptographically secure random bytes.
         func fill(_ buffer: UnsafeMutableRawBufferPointer) throws(RandomError)
