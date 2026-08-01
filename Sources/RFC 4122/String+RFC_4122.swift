@@ -95,9 +95,7 @@ extension RFC_4122.UUID {
                     writeByte(rawBytes[15])
                 } else {
                     // Compact format: all 16 bytes, no hyphens
-                    for byteIndex in 0..<16 {
-                        writeByte(rawBytes[byteIndex])
-                    }
+                    (0..<16).forEach { writeByte(rawBytes[$0]) }
                 }
             }
 

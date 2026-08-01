@@ -84,12 +84,12 @@ extension RFC_4122.Hash: Dependency.Key {
         RFC_4122.Hash(
             md5: { data in
                 var result = [UInt8](repeating: 0, count: 16)
-                for i in 0..<min(data.count, 16) { result[i] = data[i] }
+                (0..<min(data.count, 16)).forEach { result[$0] = data[$0] }
                 return result
             },
             sha1: { data in
                 var result = [UInt8](repeating: 0, count: 20)
-                for i in 0..<min(data.count, 20) { result[i] = data[i] }
+                (0..<min(data.count, 20)).forEach { result[$0] = data[$0] }
                 return result
             }
         )

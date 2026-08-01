@@ -151,7 +151,7 @@ extension RFC_4122.UUID {
     ///   - originalString: Original string for error reporting
     /// - Returns: Parsed UUID
     /// - Throws: `Error` for invalid input
-    private static func parseUTF8<C: Collection>(
+    private static func parseUTF8<C: Swift.Collection>(
         _ utf8: C,
         originalString: Swift.String
     ) throws(Error) -> Self where C.Element == Byte, C.Index == Int {

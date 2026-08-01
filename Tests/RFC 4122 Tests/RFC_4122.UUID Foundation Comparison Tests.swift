@@ -8,9 +8,6 @@ import Time_Primitives
 
 @testable import RFC_4122
 
-// Disambiguate from Foundation.Measurement
-private typealias PerfMeasurement = Benchmark.Measurement
-
 // MARK: - Foundation Comparison Suite
 
 extension RFC_4122.UUID.Test {
@@ -27,7 +24,9 @@ extension RFC_4122.UUID.Test.`Foundation Comparison` {
         let input = "550e8400-e29b-41d4-a716-446655440000"
 
         let rfc4122 = Benchmark.measure(iterations: 1000, warmup: 100, name: "RFC_4122.UUID parsing") {
-            _ = try? RFC_4122.UUID(input)
+            do throws(RFC_4122.UUID.Error) {
+                _ = try RFC_4122.UUID(input)
+            } catch {}
         }
 
         let foundation = Benchmark.measure(iterations: 1000, warmup: 100, name: "Foundation.UUID parsing") {
@@ -43,7 +42,9 @@ extension RFC_4122.UUID.Test.`Foundation Comparison` {
 
         let rfc4122 = Benchmark.measure(iterations: 10, warmup: 2, name: "RFC_4122 parse x1000") {
             for _ in 0..<1000 {
-                _ = try? RFC_4122.UUID(input)
+                do throws(RFC_4122.UUID.Error) {
+                    _ = try RFC_4122.UUID(input)
+                } catch {}
             }
         }
 
@@ -106,7 +107,9 @@ extension RFC_4122.UUID.Test.`Foundation Comparison` {
     @Test
     func `Random generation: RFC_4122.UUID vs Foundation.UUID`() {
         let rfc4122 = Benchmark.measure(iterations: 1000, warmup: 100, name: "RFC_4122.UUID.v4") {
-            _ = try? RFC_4122.UUID.v4(using: SystemRandom())
+            do throws(SystemRandom.RandomError) {
+                _ = try RFC_4122.UUID.v4(using: SystemRandom())
+            } catch {}
         }
 
         let foundation = Benchmark.measure(iterations: 1000, warmup: 100, name: "Foundation.UUID()") {
@@ -122,7 +125,9 @@ extension RFC_4122.UUID.Test.`Foundation Comparison` {
 
         let rfc4122 = Benchmark.measure(iterations: 10, warmup: 2, name: "RFC_4122 v4 x1000") {
             for _ in 0..<1000 {
-                _ = try? RFC_4122.UUID.v4(using: random)
+                do throws(SystemRandom.RandomError) {
+                    _ = try RFC_4122.UUID.v4(using: random)
+                } catch {}
             }
         }
 
@@ -218,8 +223,8 @@ extension SystemRandom {
 
 private func printComparison(
     _ label: String,
-    rfc4122: PerfMeasurement,
-    foundation: PerfMeasurement,
+    rfc4122: Benchmark.Measurement,
+    foundation: Benchmark.Measurement,
     note: String? = nil
 ) {
     let rfc = rfc4122.median.formatted(.duration)
