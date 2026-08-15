@@ -23,13 +23,21 @@ extension RFC_4122.UUID.Test.`Foundation Comparison` {
     func `Parse: RFC_4122.UUID vs Foundation.UUID`() {
         let input = "550e8400-e29b-41d4-a716-446655440000"
 
-        let rfc4122 = Benchmark.measure(iterations: 1000, warmup: 100, name: "RFC_4122.UUID parsing") {
+        let rfc4122 = Benchmark.measure(
+            iterations: 1000,
+            warmup: 100,
+            name: "RFC_4122.UUID parsing"
+        ) {
             do throws(RFC_4122.UUID.Error) {
                 _ = try RFC_4122.UUID(input)
             } catch {}
         }
 
-        let foundation = Benchmark.measure(iterations: 1000, warmup: 100, name: "Foundation.UUID parsing") {
+        let foundation = Benchmark.measure(
+            iterations: 1000,
+            warmup: 100,
+            name: "Foundation.UUID parsing"
+        ) {
             _ = Foundation.UUID(uuidString: input)
         }
 
@@ -48,7 +56,11 @@ extension RFC_4122.UUID.Test.`Foundation Comparison` {
             }
         }
 
-        let foundation = Benchmark.measure(iterations: 10, warmup: 2, name: "Foundation parse x1000") {
+        let foundation = Benchmark.measure(
+            iterations: 10,
+            warmup: 2,
+            name: "Foundation parse x1000"
+        ) {
             for _ in 0..<1000 {
                 _ = Foundation.UUID(uuidString: input)
             }
@@ -67,11 +79,19 @@ extension RFC_4122.UUID.Test.`Foundation Comparison` {
         let rfc4122UUID = try RFC_4122.UUID("550e8400-e29b-41d4-a716-446655440000")
         let foundationUUID = Foundation.UUID(uuidString: "550e8400-e29b-41d4-a716-446655440000")!
 
-        let rfc4122 = Benchmark.measure(iterations: 1000, warmup: 100, name: "RFC_4122.UUID formatting") {
+        let rfc4122 = Benchmark.measure(
+            iterations: 1000,
+            warmup: 100,
+            name: "RFC_4122.UUID formatting"
+        ) {
             _ = rfc4122UUID.description
         }
 
-        let foundation = Benchmark.measure(iterations: 1000, warmup: 100, name: "Foundation.UUID formatting") {
+        let foundation = Benchmark.measure(
+            iterations: 1000,
+            warmup: 100,
+            name: "Foundation.UUID formatting"
+        ) {
             _ = foundationUUID.uuidString
         }
 
@@ -87,7 +107,11 @@ extension RFC_4122.UUID.Test.`Foundation Comparison` {
             _ = rfc4122UUID.description
         }
 
-        let foundation = Benchmark.measure(iterations: 1000, warmup: 100, name: "Foundation lowercased") {
+        let foundation = Benchmark.measure(
+            iterations: 1000,
+            warmup: 100,
+            name: "Foundation lowercased"
+        ) {
             _ = foundationUUID.uuidString.lowercased()
         }
 
@@ -112,7 +136,8 @@ extension RFC_4122.UUID.Test.`Foundation Comparison` {
             } catch {}
         }
 
-        let foundation = Benchmark.measure(iterations: 1000, warmup: 100, name: "Foundation.UUID()") {
+        let foundation = Benchmark.measure(iterations: 1000, warmup: 100, name: "Foundation.UUID()")
+        {
             _ = Foundation.UUID()
         }
 
@@ -137,7 +162,11 @@ extension RFC_4122.UUID.Test.`Foundation Comparison` {
             }
         }
 
-        printComparison("Batch Random Generation (1000 UUIDs)", rfc4122: rfc4122, foundation: foundation)
+        printComparison(
+            "Batch Random Generation (1000 UUIDs)",
+            rfc4122: rfc4122,
+            foundation: foundation
+        )
     }
 }
 
@@ -156,7 +185,11 @@ extension RFC_4122.UUID.Test.`Foundation Comparison` {
             _ = rfc1 == rfc2
         }
 
-        let foundation = Benchmark.measure(iterations: 1000, warmup: 100, name: "Foundation equality") {
+        let foundation = Benchmark.measure(
+            iterations: 1000,
+            warmup: 100,
+            name: "Foundation equality"
+        ) {
             _ = found1 == found2
         }
 

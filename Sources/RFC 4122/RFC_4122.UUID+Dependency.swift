@@ -33,7 +33,11 @@ extension RFC_4122.UUID {
     ///   - nameBytes: The name as raw bytes.
     /// - Returns: A version 3 UUID.
     public static func v3(namespace: Self, nameBytes: [UInt8]) -> Self {
-        v3(namespace: namespace, nameBytes: nameBytes, using: Dependency.Scope.current[RFC_4122.Hash.self])
+        v3(
+            namespace: namespace,
+            nameBytes: nameBytes,
+            using: Dependency.Scope.current[RFC_4122.Hash.self]
+        )
     }
 }
 
@@ -61,7 +65,11 @@ extension RFC_4122.UUID {
     ///   - nameBytes: The name as raw bytes.
     /// - Returns: A version 5 UUID.
     public static func v5(namespace: Self, nameBytes: [UInt8]) -> Self {
-        v5(namespace: namespace, nameBytes: nameBytes, using: Dependency.Scope.current[RFC_4122.Hash.self])
+        v5(
+            namespace: namespace,
+            nameBytes: nameBytes,
+            using: Dependency.Scope.current[RFC_4122.Hash.self]
+        )
     }
 }
 

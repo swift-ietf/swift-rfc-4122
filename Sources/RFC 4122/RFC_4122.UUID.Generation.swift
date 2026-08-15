@@ -222,7 +222,8 @@ extension RFC_4122.UUID {
                 UInt8, UInt8, UInt8, UInt8
             ) = (0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)
 
-        let outcome: Result<Void, R.RandomError> = Swift.withUnsafeMutableBytes(of: &bytes) { buffer in
+        let outcome: Result<Void, R.RandomError> = Swift.withUnsafeMutableBytes(of: &bytes) {
+            buffer in
             do throws(R.RandomError) {
                 try random.fill(buffer)
                 return .success(())
