@@ -1,6 +1,3 @@
-// RFC_4122.UUID Foundation Comparison Tests.swift
-// Performance comparison between RFC_4122.UUID and Foundation.UUID
-
 import Format_Primitives
 import Foundation
 import Testing
@@ -8,14 +5,10 @@ import Time_Primitives
 
 @testable import RFC_4122
 
-// MARK: - Foundation Comparison Suite
-
 extension RFC_4122.UUID.Test {
     @Suite("Foundation Comparison", .serialized)
     struct `Foundation Comparison` {}
 }
-
-// MARK: - Parsing Comparison
 
 extension RFC_4122.UUID.Test.`Foundation Comparison` {
 
@@ -70,8 +63,6 @@ extension RFC_4122.UUID.Test.`Foundation Comparison` {
     }
 }
 
-// MARK: - Formatting Comparison
-
 extension RFC_4122.UUID.Test.`Foundation Comparison` {
 
     @Test
@@ -124,8 +115,6 @@ extension RFC_4122.UUID.Test.`Foundation Comparison` {
     }
 }
 
-// MARK: - Random Generation Comparison
-
 extension RFC_4122.UUID.Test.`Foundation Comparison` {
 
     @Test
@@ -170,8 +159,6 @@ extension RFC_4122.UUID.Test.`Foundation Comparison` {
     }
 }
 
-// MARK: - Equality Comparison
-
 extension RFC_4122.UUID.Test.`Foundation Comparison` {
 
     @Test
@@ -213,8 +200,6 @@ extension RFC_4122.UUID.Test.`Foundation Comparison` {
     }
 }
 
-// MARK: - Memory Layout Comparison
-
 extension RFC_4122.UUID.Test.`Foundation Comparison` {
 
     @Test
@@ -242,8 +227,6 @@ extension RFC_4122.UUID.Test.`Foundation Comparison` {
     }
 }
 
-// MARK: - System Random Provider
-
 private struct SystemRandom: RFC_4122.RandomProvider {}
 
 extension SystemRandom {
@@ -251,8 +234,6 @@ extension SystemRandom {
         arc4random_buf(buffer.baseAddress!, buffer.count)
     }
 }
-
-// MARK: - Comparison Output
 
 private func printComparison(
     _ label: String,

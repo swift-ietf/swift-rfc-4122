@@ -1,6 +1,3 @@
-// RFC_4122.Hash.swift
-// Type-erased hash provider for RFC 4122 name-based UUID generation
-
 public import Dependency_Primitives
 
 #if canImport(CryptoKit)
@@ -8,19 +5,7 @@ public import Dependency_Primitives
 #endif
 
 extension RFC_4122 {
-    /// A type-erased hash provider for RFC 4122 name-based UUID generation.
-    ///
-    /// `Hash` wraps MD5 and SHA-1 hash functions for use with version 3 and
-    /// version 5 UUID generation. It conforms to both ``RFC_4122/HashProvider``
-    /// and ``Dependency/Key``, enabling resolution from dependency scope.
-    ///
-    /// ## Dependency Injection
-    ///
-    /// ```swift
-    /// Dependency.Scope.with { $0[RFC_4122.Hash.self] = myHashProvider } operation: {
-    ///     let uuid = RFC_4122.UUID.v3(namespace: .dns, name: "example.com")
-    /// }
-    /// ```
+
     public struct Hash: Sendable {
         @usableFromInline
         let _md5: @Sendable ([UInt8]) -> [UInt8]
@@ -39,8 +24,6 @@ extension RFC_4122 {
     }
 }
 
-// MARK: - HashProvider
-
 extension RFC_4122.Hash: RFC_4122.HashProvider {
     @inlinable
     public func md5(_ data: [UInt8]) -> [UInt8] { _md5(data) }
@@ -48,8 +31,6 @@ extension RFC_4122.Hash: RFC_4122.HashProvider {
     @inlinable
     public func sha1(_ data: [UInt8]) -> [UInt8] { _sha1(data) }
 }
-
-// MARK: - Dependency.Key
 
 extension RFC_4122.Hash: Dependency.Key {
     public typealias Value = RFC_4122.Hash
