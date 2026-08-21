@@ -54,14 +54,14 @@ extension RFC_4122.UUID {
 
             @inline(always)
             func writeByte(_ byte: UInt8) {
-                buffer[i] = hex(byte >> 4)
-                buffer[i + 1] = hex(byte & 0x0F)
+                unsafe buffer[i] = hex(byte >> 4)
+                unsafe buffer[i + 1] = hex(byte & 0x0F)
                 i += 2
             }
 
             @inline(always)
             func writeHyphen() {
-                buffer[i] = hyphen
+                unsafe buffer[i] = hyphen
                 i += 1
             }
 
@@ -69,33 +69,33 @@ extension RFC_4122.UUID {
             Swift.withUnsafeBytes(of: bytes) { rawBytes in
                 if format == .hyphenated {
                     // time_low (4 bytes)
-                    writeByte(rawBytes[0])
-                    writeByte(rawBytes[1])
-                    writeByte(rawBytes[2])
-                    writeByte(rawBytes[3])
+                    unsafe writeByte(rawBytes[0])
+                    unsafe writeByte(rawBytes[1])
+                    unsafe writeByte(rawBytes[2])
+                    unsafe writeByte(rawBytes[3])
                     writeHyphen()
                     // time_mid (2 bytes)
-                    writeByte(rawBytes[4])
-                    writeByte(rawBytes[5])
+                    unsafe writeByte(rawBytes[4])
+                    unsafe writeByte(rawBytes[5])
                     writeHyphen()
                     // time_hi_and_version (2 bytes)
-                    writeByte(rawBytes[6])
-                    writeByte(rawBytes[7])
+                    unsafe writeByte(rawBytes[6])
+                    unsafe writeByte(rawBytes[7])
                     writeHyphen()
                     // clock_seq_hi_and_reserved + clock_seq_low (2 bytes)
-                    writeByte(rawBytes[8])
-                    writeByte(rawBytes[9])
+                    unsafe writeByte(rawBytes[8])
+                    unsafe writeByte(rawBytes[9])
                     writeHyphen()
                     // node (6 bytes)
-                    writeByte(rawBytes[10])
-                    writeByte(rawBytes[11])
-                    writeByte(rawBytes[12])
-                    writeByte(rawBytes[13])
-                    writeByte(rawBytes[14])
-                    writeByte(rawBytes[15])
+                    unsafe writeByte(rawBytes[10])
+                    unsafe writeByte(rawBytes[11])
+                    unsafe writeByte(rawBytes[12])
+                    unsafe writeByte(rawBytes[13])
+                    unsafe writeByte(rawBytes[14])
+                    unsafe writeByte(rawBytes[15])
                 } else {
                     // Compact format: all 16 bytes, no hyphens
-                    (0..<16).forEach { writeByte(rawBytes[$0]) }
+                    (0..<16).forEach { unsafe writeByte(rawBytes[$0]) }
                 }
             }
 

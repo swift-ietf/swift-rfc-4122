@@ -60,14 +60,14 @@ extension RFC_4122.Hash: Dependency.Key {
                 md5: { data in
                     var hasher = Insecure.MD5()
                     data.withUnsafeBufferPointer {
-                        hasher.update(bufferPointer: UnsafeRawBufferPointer($0))
+                        unsafe hasher.update(bufferPointer: UnsafeRawBufferPointer($0))
                     }
                     return Array(hasher.finalize())
                 },
                 sha1: { data in
                     var hasher = Insecure.SHA1()
                     data.withUnsafeBufferPointer {
-                        hasher.update(bufferPointer: UnsafeRawBufferPointer($0))
+                        unsafe hasher.update(bufferPointer: UnsafeRawBufferPointer($0))
                     }
                     return Array(hasher.finalize())
                 }

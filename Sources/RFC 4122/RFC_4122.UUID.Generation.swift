@@ -225,7 +225,7 @@ extension RFC_4122.UUID {
         let outcome: Result<Void, R.RandomError> = Swift.withUnsafeMutableBytes(of: &bytes) {
             buffer in
             do throws(R.RandomError) {
-                try random.fill(buffer)
+                try unsafe random.fill(buffer)
                 return .success(())
             } catch {
                 return .failure(error)
@@ -260,7 +260,7 @@ extension RFC_4122.UUID {
 
         let outcome: Result<Void, E> = Swift.withUnsafeMutableBytes(of: &bytes) { buffer in
             do throws(E) {
-                try fillRandom(buffer)
+                try unsafe fillRandom(buffer)
                 return .success(())
             } catch {
                 return .failure(error)

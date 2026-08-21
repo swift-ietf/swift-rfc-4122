@@ -91,7 +91,7 @@ extension RFC_4122.UUID: Equatable {
     public static func == (lhs: Self, rhs: Self) -> Bool {
         Swift.withUnsafeBytes(of: lhs.bytes) { lhsBuffer in
             Swift.withUnsafeBytes(of: rhs.bytes) { rhsBuffer in
-                lhsBuffer.elementsEqual(rhsBuffer)
+                unsafe lhsBuffer.elementsEqual(rhsBuffer)
             }
         }
     }
@@ -100,7 +100,7 @@ extension RFC_4122.UUID: Equatable {
 extension RFC_4122.UUID: Hashable {
     public func hash(into hasher: inout Hasher) {
         Swift.withUnsafeBytes(of: bytes) { buffer in
-            hasher.combine(bytes: buffer)
+            unsafe hasher.combine(bytes: buffer)
         }
     }
 }
@@ -116,17 +116,17 @@ extension RFC_4122.UUID {
     public subscript(index: Int) -> UInt8 {
         get {
             precondition(index >= 0 && index < 16, "UUID byte index out of range")
-            return Swift.withUnsafeBytes(of: bytes) { $0[index] }
+            return Swift.withUnsafeBytes(of: bytes) { unsafe $0[index] }
         }
         set {
             precondition(index >= 0 && index < 16, "UUID byte index out of range")
-            Swift.withUnsafeMutableBytes(of: &bytes) { $0[index] = newValue }
+            Swift.withUnsafeMutableBytes(of: &bytes) { unsafe $0[index] = newValue }
         }
     }
 
     /// Returns the UUID bytes as an array.
     public var byteArray: [UInt8] {
-        Swift.withUnsafeBytes(of: bytes) { Array($0) }
+        Swift.withUnsafeBytes(of: bytes) { unsafe Array($0) }
     }
 }
 

@@ -29,7 +29,7 @@ extension RFC_4122 {
         public init(
             fill: @escaping @Sendable (UnsafeMutableRawBufferPointer) throws(Error) -> Void
         ) {
-            self._fill = fill
+            unsafe self._fill = unsafe fill
         }
     }
 }
@@ -41,7 +41,7 @@ extension RFC_4122.Random: RFC_4122.RandomProvider {
 
     @inlinable
     public func fill(_ buffer: UnsafeMutableRawBufferPointer) throws(Error) {
-        try _fill(buffer)
+        try unsafe _fill(buffer)
     }
 }
 
@@ -64,9 +64,9 @@ extension RFC_4122.Random: Dependency.Key {
     }
 
     public static var testValue: RFC_4122.Random {
-        RFC_4122.Random { buffer in
+        unsafe RFC_4122.Random { buffer in
             for i in buffer.indices {
-                buffer[i] = UInt8(truncatingIfNeeded: i)
+                unsafe buffer[i] = UInt8(truncatingIfNeeded: i)
             }
         }
     }
