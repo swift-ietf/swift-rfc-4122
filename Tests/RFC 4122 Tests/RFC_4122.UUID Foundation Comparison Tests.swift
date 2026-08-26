@@ -1,7 +1,7 @@
-import Format_Primitives
+import Format
 import Foundation
 import Testing
-import Time_Primitives
+import Time
 
 @testable import RFC_4122
 

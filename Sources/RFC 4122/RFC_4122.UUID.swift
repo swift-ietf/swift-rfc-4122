@@ -1,4 +1,4 @@
-import ASCII_Primitives
+import ASCII
 import Standard_Library_Extensions
 
 extension RFC_4122 {
