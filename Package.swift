@@ -46,7 +46,7 @@ let package = Package(
         .testTarget(
             name: "RFC 4122 Tests",
             dependencies: [
-                "RFC 4122"
+                .target(name: "RFC 4122")
             ],
             exclude: [
                 "RFC_4122.UUID Foundation Comparison Tests.swift"
@@ -55,10 +55,6 @@ let package = Package(
     ],
     swiftLanguageModes: [.v6]
 )
-
-extension String {
-    var tests: Self { self + " Tests" }
-}
 
 for target in package.targets where ![.system, .binary, .plugin, .macro].contains(target.type) {
     let ecosystem: [SwiftSetting] = [
