@@ -23,6 +23,10 @@ let package = Package(
             branch: "main"
         ),
         .package(
+            url: "https://github.com/swift-atoms/swift-byte.git",
+            branch: "main"
+        ),
+        .package(
             url: "https://github.com/swift-atoms/swift-standard-library-extensions.git",
             branch: "main"
         ),
@@ -36,6 +40,7 @@ let package = Package(
             name: "RFC 4122",
             dependencies: [
                 .product(name: "ASCII", package: "swift-ascii"),
+                .product(name: "Byte", package: "swift-byte"),
                 .product(
                     name: "Standard Library Extensions",
                     package: "swift-standard-library-extensions"

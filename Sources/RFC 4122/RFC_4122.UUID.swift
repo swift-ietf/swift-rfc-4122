@@ -1,4 +1,5 @@
 import ASCII
+import Byte
 import Standard_Library_Extensions
 
 extension RFC_4122 {
@@ -81,7 +82,7 @@ extension RFC_4122.UUID {
 extension RFC_4122.UUID {
 
     private static func parse(_ string: Swift.String) throws(Error) -> Self {
-        return try parseUTF8([Byte](string.utf8), originalString: string)
+        return try parseUTF8([Byte](utf8: string), originalString: string)
     }
 
     private static func parseUTF8<C: Swift.Collection>(
