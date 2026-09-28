@@ -1,4 +1,4 @@
-import Format
+import Formatter
 import Foundation
 import Testing
 import Time

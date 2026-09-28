@@ -19,7 +19,7 @@ let package = Package(
     ],
     dependencies: [
         .package(
-            url: "https://github.com/swift-molecules/swift-ascii.git",
+            url: "https://github.com/swift-atoms/swift-ascii.git",
             branch: "main"
         ),
         .package(
