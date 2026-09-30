@@ -127,8 +127,9 @@ extension RFC_4122.UUID {
             else {
 
                 let failPos = codes[highPos].hexValue == nil ? highPos : lowPos
-                let chars = Array(originalString)
-                throw .invalidCharacter(chars[failPos], at: failPos)
+                let utf8 = originalString.utf8
+                let scalar = originalString.unicodeScalars[utf8.index(utf8.startIndex, offsetBy: failPos)]
+                throw .invalidCharacter(Character(scalar), at: failPos)
             }
             return (high << 4) | low
         }
@@ -173,8 +174,9 @@ extension RFC_4122.UUID {
             else {
 
                 let failPos = codes[highPos].hexValue == nil ? highPos : lowPos
-                let chars = Array(originalString)
-                throw .invalidCharacter(chars[failPos], at: failPos)
+                let utf8 = originalString.utf8
+                let scalar = originalString.unicodeScalars[utf8.index(utf8.startIndex, offsetBy: failPos)]
+                throw .invalidCharacter(Character(scalar), at: failPos)
             }
             return (high << 4) | low
         }
