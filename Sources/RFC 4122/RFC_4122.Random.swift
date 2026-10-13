@@ -2,7 +2,7 @@ public import Dependency
 
 extension RFC_4122 {
 
-    public struct Random: Sendable {
+    @safe public struct Random: Sendable {
         @usableFromInline
         let _fill: @Sendable (UnsafeMutableRawBufferPointer) throws(Error) -> Void
 

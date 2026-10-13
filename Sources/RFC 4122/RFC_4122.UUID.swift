@@ -25,7 +25,7 @@ extension RFC_4122 {
             self.bytes = bytes
         }
 
-        public init(_ string: Swift.String) throws(Error) {
+        public init(_ string: Swift::String) throws(Error) {
             self = try Self.parse(string)
         }
 
@@ -45,8 +45,8 @@ extension RFC_4122 {
 
 extension RFC_4122.UUID: Equatable {
     public static func == (lhs: Self, rhs: Self) -> Bool {
-        Swift.withUnsafeBytes(of: lhs.bytes) { lhsBuffer in
-            Swift.withUnsafeBytes(of: rhs.bytes) { rhsBuffer in
+        Swift::withUnsafeBytes(of: lhs.bytes) { lhsBuffer in
+            Swift::withUnsafeBytes(of: rhs.bytes) { rhsBuffer in
                 unsafe lhsBuffer.elementsEqual(rhsBuffer)
             }
         }
@@ -55,7 +55,7 @@ extension RFC_4122.UUID: Equatable {
 
 extension RFC_4122.UUID: Hashable {
     public func hash(into hasher: inout Hasher) {
-        Swift.withUnsafeBytes(of: bytes) { buffer in
+        Swift::withUnsafeBytes(of: bytes) { buffer in
             unsafe hasher.combine(bytes: buffer)
         }
     }
@@ -66,28 +66,28 @@ extension RFC_4122.UUID {
     public subscript(index: Int) -> UInt8 {
         get {
             precondition(index >= 0 && index < 16, "UUID byte index out of range")
-            return Swift.withUnsafeBytes(of: bytes) { unsafe $0[index] }
+            return Swift::withUnsafeBytes(of: bytes) { unsafe $0[index] }
         }
         set {
             precondition(index >= 0 && index < 16, "UUID byte index out of range")
-            Swift.withUnsafeMutableBytes(of: &bytes) { unsafe $0[index] = newValue }
+            Swift::withUnsafeMutableBytes(of: &bytes) { unsafe $0[index] = newValue }
         }
     }
 
     public var byteArray: [UInt8] {
-        Swift.withUnsafeBytes(of: bytes) { unsafe Array($0) }
+        Swift::withUnsafeBytes(of: bytes) { unsafe Array($0) }
     }
 }
 
 extension RFC_4122.UUID {
 
-    private static func parse(_ string: Swift.String) throws(Error) -> Self {
+    private static func parse(_ string: Swift::String) throws(Error) -> Self {
         return try parseUTF8([Byte](utf8: string), originalString: string)
     }
 
-    private static func parseUTF8<C: Swift.Collection>(
+    private static func parseUTF8<C: Swift::Collection>(
         _ utf8: C,
-        originalString: Swift.String
+        originalString: Swift::String
     ) throws(Error) -> Self where C.Element == Byte, C.Index == Int {
         let count = utf8.count
 
@@ -117,7 +117,7 @@ extension RFC_4122.UUID {
     @inline(always)
     private static func parseHyphenatedUTF8(
         _ codes: [ASCII.Code],
-        originalString: Swift.String
+        originalString: Swift::String
     ) throws(Error) -> Self {
 
         @inline(always)
@@ -165,7 +165,7 @@ extension RFC_4122.UUID {
     @inline(always)
     private static func parseCompactUTF8(
         _ codes: [ASCII.Code],
-        originalString: Swift.String
+        originalString: Swift::String
     ) throws(Error) -> Self {
         @inline(always)
         func byte(at highPos: Int, _ lowPos: Int) throws(Error) -> UInt8 {

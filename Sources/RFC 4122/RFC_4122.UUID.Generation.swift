@@ -124,7 +124,7 @@ extension RFC_4122.UUID {
                 UInt8, UInt8, UInt8, UInt8
             ) = (0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)
 
-        let outcome: Result<Void, R.RandomError> = Swift.withUnsafeMutableBytes(of: &bytes) {
+        let outcome: Result<Void, R.RandomError> = Swift::withUnsafeMutableBytes(of: &bytes) {
             buffer in
             do throws(R.RandomError) {
                 try unsafe random.fill(buffer)
@@ -142,7 +142,7 @@ extension RFC_4122.UUID {
         return Self(bytes: bytes)
     }
 
-    public static func v4<E: Swift.Error>(
+    public static func v4<E: Swift::Error>(
         fillRandom: (UnsafeMutableRawBufferPointer) throws(E) -> Void
     ) throws(E) -> Self {
         var bytes:
@@ -153,7 +153,7 @@ extension RFC_4122.UUID {
                 UInt8, UInt8, UInt8, UInt8
             ) = (0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)
 
-        let outcome: Result<Void, E> = Swift.withUnsafeMutableBytes(of: &bytes) { buffer in
+        let outcome: Result<Void, E> = Swift::withUnsafeMutableBytes(of: &bytes) { buffer in
             do throws(E) {
                 try unsafe fillRandom(buffer)
                 return .success(())

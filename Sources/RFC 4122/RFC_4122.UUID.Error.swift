@@ -1,6 +1,6 @@
 extension RFC_4122.UUID {
 
-    public enum Error: Swift.Error, Sendable, Hashable {
+    public enum Error: Swift::Error, Sendable, Hashable {
 
         case invalidLength
 

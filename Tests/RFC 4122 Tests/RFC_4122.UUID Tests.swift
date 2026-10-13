@@ -278,7 +278,7 @@ private struct MockRandom: RFC_4122.RandomProvider {
 extension MockRandom {
     func fill(_ buffer: UnsafeMutableRawBufferPointer) throws(Never) {
         for i in buffer.indices {
-            buffer[i] = pattern
+            unsafe buffer[i] = pattern
         }
     }
 }
@@ -422,9 +422,9 @@ extension RFC_4122.UUID.Test.Unit {
 
     @Test
     func `v4 closure-based generation`() throws {
-        let uuid = try RFC_4122.UUID.v4 { buffer in
+        let uuid = unsafe RFC_4122.UUID.v4 { buffer in
             for i in buffer.indices {
-                buffer[i] = 0x55
+                unsafe buffer[i] = 0x55
             }
         }
 

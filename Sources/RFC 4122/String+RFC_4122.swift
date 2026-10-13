@@ -44,7 +44,7 @@ extension RFC_4122.UUID {
                 i += 1
             }
 
-            Swift.withUnsafeBytes(of: bytes) { rawBytes in
+            Swift::withUnsafeBytes(of: bytes) { rawBytes in
                 if format == .hyphenated {
 
                     unsafe writeByte(rawBytes[0])
