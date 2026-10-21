@@ -20,9 +20,14 @@ extension RFC_4122.UUID {
 
         @inline(always)
         func hex(_ nibble: UInt8) -> UInt8 {
-            uppercase
-                ? ASCII.Hexadecimal.code(nibble, case: .upper)!.underlying
-                : ASCII.Hexadecimal.code(nibble, case: .lower)!.underlying
+            let code =
+                uppercase
+                ? ASCII.Hexadecimal.code(nibble, case: .upper)
+                : ASCII.Hexadecimal.code(nibble, case: .lower)
+            guard let code else {
+                preconditionFailure("A nibble is below 16, so it always has a hexadecimal digit")
+            }
+            return code.underlying
         }
 
         let capacity = format == .hyphenated ? 36 : 32

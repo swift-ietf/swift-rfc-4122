@@ -125,8 +125,7 @@ extension RFC_4122.UUID.Test.`Foundation Comparison` {
             } catch {}
         }
 
-        let foundation = Benchmark.measure(iterations: 1000, warmup: 100, name: "Foundation.UUID()")
-        {
+        let foundation = Benchmark.measure(iterations: 1000, warmup: 100, name: "Foundation.UUID()") {
             _ = Foundation.UUID()
         }
 
