@@ -5,12 +5,12 @@ import Time
 
 @testable import RFC_4122
 
-extension RFC_4122.UUID.Test {
+extension `RFC_4122.UUID Tests`.Test {
     @Suite("Foundation Comparison", .serialized)
     struct `Foundation Comparison` {}
 }
 
-extension RFC_4122.UUID.Test.`Foundation Comparison` {
+extension `RFC_4122.UUID Tests`.Test.`Foundation Comparison` {
 
     @Test
     func `Parse: RFC_4122.UUID vs Foundation.UUID`() {
@@ -63,7 +63,7 @@ extension RFC_4122.UUID.Test.`Foundation Comparison` {
     }
 }
 
-extension RFC_4122.UUID.Test.`Foundation Comparison` {
+extension `RFC_4122.UUID Tests`.Test.`Foundation Comparison` {
 
     @Test
     func `Format: RFC_4122.UUID vs Foundation.UUID`() throws {
@@ -115,7 +115,7 @@ extension RFC_4122.UUID.Test.`Foundation Comparison` {
     }
 }
 
-extension RFC_4122.UUID.Test.`Foundation Comparison` {
+extension `RFC_4122.UUID Tests`.Test.`Foundation Comparison` {
 
     @Test
     func `Random generation: RFC_4122.UUID vs Foundation.UUID`() {
@@ -158,7 +158,7 @@ extension RFC_4122.UUID.Test.`Foundation Comparison` {
     }
 }
 
-extension RFC_4122.UUID.Test.`Foundation Comparison` {
+extension `RFC_4122.UUID Tests`.Test.`Foundation Comparison` {
 
     @Test
     func `Equality: RFC_4122.UUID vs Foundation.UUID`() throws {
@@ -199,7 +199,7 @@ extension RFC_4122.UUID.Test.`Foundation Comparison` {
     }
 }
 
-extension RFC_4122.UUID.Test.`Foundation Comparison` {
+extension `RFC_4122.UUID Tests`.Test.`Foundation Comparison` {
 
     @Test
     func `Memory layout comparison`() {

@@ -2,7 +2,9 @@ import Testing
 
 @testable import RFC_4122
 
-extension RFC_4122.UUID {
+enum `RFC_4122.UUID Tests` {}
+
+extension `RFC_4122.UUID Tests` {
     @Suite
     struct Test {
         @Suite struct Unit {}
@@ -11,7 +13,7 @@ extension RFC_4122.UUID {
     }
 }
 
-extension RFC_4122.UUID.Test.Unit {
+extension `RFC_4122.UUID Tests`.Test.Unit {
 
     @Test
     func `Parses hyphenated lowercase UUID`() throws {
@@ -127,7 +129,7 @@ extension RFC_4122.UUID.Test.Unit {
     }
 }
 
-extension RFC_4122.UUID.Test.Unit {
+extension `RFC_4122.UUID Tests`.Test.Unit {
 
     @Test
     func `RFC 4122 Appendix C: DNS namespace UUID`() throws {
@@ -207,7 +209,7 @@ extension RFC_4122.UUID.Test.Unit {
     }
 }
 
-extension RFC_4122.UUID.Test.`Edge Case` {
+extension `RFC_4122.UUID Tests`.Test.`Edge Case` {
     @Test
     func `Rejects invalid length`() {
         #expect(throws: RFC_4122.UUID.Error.invalidLength) {
@@ -283,7 +285,7 @@ extension MockRandom {
     }
 }
 
-extension RFC_4122.UUID.Test.Unit {
+extension `RFC_4122.UUID Tests`.Test.Unit {
 
     @Test
     func `UUID.dns matches RFC 4122 Appendix C`() {
