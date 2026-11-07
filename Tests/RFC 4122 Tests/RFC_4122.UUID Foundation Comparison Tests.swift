@@ -6,12 +6,11 @@ import Time
 @testable import RFC_4122
 
 extension `RFC_4122.UUID Tests`.Test {
-    @Suite("Foundation Comparison", .serialized)
+    @Suite(.serialized)
     struct `Foundation Comparison` {}
 }
 
 extension `RFC_4122.UUID Tests`.Test.`Foundation Comparison` {
-
     @Test
     func `Parse: RFC_4122.UUID vs Foundation.UUID`() {
         let input = "550e8400-e29b-41d4-a716-446655440000"
@@ -64,7 +63,6 @@ extension `RFC_4122.UUID Tests`.Test.`Foundation Comparison` {
 }
 
 extension `RFC_4122.UUID Tests`.Test.`Foundation Comparison` {
-
     @Test
     func `Format: RFC_4122.UUID vs Foundation.UUID`() throws {
         let rfc4122UUID = try RFC_4122.UUID("550e8400-e29b-41d4-a716-446655440000")
@@ -116,7 +114,6 @@ extension `RFC_4122.UUID Tests`.Test.`Foundation Comparison` {
 }
 
 extension `RFC_4122.UUID Tests`.Test.`Foundation Comparison` {
-
     @Test
     func `Random generation: RFC_4122.UUID vs Foundation.UUID`() {
         let rfc4122 = Benchmark.measure(iterations: 1000, warmup: 100, name: "RFC_4122.UUID.v4") {
@@ -159,7 +156,6 @@ extension `RFC_4122.UUID Tests`.Test.`Foundation Comparison` {
 }
 
 extension `RFC_4122.UUID Tests`.Test.`Foundation Comparison` {
-
     @Test
     func `Equality: RFC_4122.UUID vs Foundation.UUID`() throws {
         let rfc1 = try RFC_4122.UUID("550e8400-e29b-41d4-a716-446655440000")
@@ -200,7 +196,6 @@ extension `RFC_4122.UUID Tests`.Test.`Foundation Comparison` {
 }
 
 extension `RFC_4122.UUID Tests`.Test.`Foundation Comparison` {
-
     @Test
     func `Memory layout comparison`() {
         let rfc4122Size = MemoryLayout<RFC_4122.UUID>.size
