@@ -259,11 +259,11 @@ private func ratioString(_ a: Duration, _ b: Duration) -> String {
     let bNs = Double(b.components.attoseconds)
     guard bNs > 0 else { return "N/A" }
     let r = aNs / bNs
-    if r < 1 {
-        return (1 / r).formatted(.number.precision(2)) + "x faster"
+    return if r < 1 {
+        (1 / r).formatted(.number.precision(2)) + "x faster"
     } else if r > 1 {
-        return r.formatted(.number.precision(2)) + "x slower"
+        r.formatted(.number.precision(2)) + "x slower"
     } else {
-        return "equal"
+        "equal"
     }
 }
