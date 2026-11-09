@@ -434,3 +434,13 @@ extension `RFC_4122.UUID Tests`.Test.Unit {
         #expect(uuid.variant == .rfc4122)
     }
 }
+
+extension `RFC_4122.UUID Tests`.Test.`Edge Case` {
+
+    @Test
+    func `v4 with the unbound live random throws instead of trapping`() {
+        #expect(throws: RFC_4122.Random.Error.unbound) {
+            try RFC_4122.UUID.v4(using: RFC_4122.Random.liveValue)
+        }
+    }
+}

@@ -28,9 +28,9 @@ extension RFC_4122.Random: Dependency.Key {
     public typealias Value = RFC_4122.Random
 
     public static var liveValue: RFC_4122.Random {
-        fatalError(
-            "RFC_4122.Random.liveValue must be bound by an L3 unifier; consume swift-uuids instead"
-        )
+        unsafe RFC_4122.Random { _ throws(Error) in
+            throw .unbound
+        }
     }
 
     public static var testValue: RFC_4122.Random {
