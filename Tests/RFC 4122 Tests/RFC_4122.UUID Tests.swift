@@ -232,6 +232,41 @@ extension `RFC_4122.UUID Tests`.Test.`Edge Case` {
     }
 
     @Test
+    func `Rejects braces around the hyphenated form`() {
+        #expect(throws: RFC_4122.UUID.Error.invalidLength) {
+            try RFC_4122.UUID("{550e8400-e29b-41d4-a716-446655440000}")
+        }
+    }
+
+    @Test
+    func `Rejects the URN form`() {
+        #expect(throws: RFC_4122.UUID.Error.invalidLength) {
+            try RFC_4122.UUID("urn:uuid:550e8400-e29b-41d4-a716-446655440000")
+        }
+    }
+
+    @Test
+    func `Rejects surrounding whitespace`() {
+        #expect(throws: RFC_4122.UUID.Error.invalidLength) {
+            try RFC_4122.UUID(" 550e8400-e29b-41d4-a716-446655440000")
+        }
+    }
+
+    @Test
+    func `Every byte value round-trips through the lower-case hyphenated form`() throws {
+        for value in 0...255 {
+            let byte = UInt8(value)
+            let bytes = (0..<16).map { byte &+ UInt8($0) }
+            let uuid = try RFC_4122.UUID(bytes)
+            let text = uuid.description
+            #expect(text == text.lowercased())
+            #expect(text.count == 36)
+            #expect(try RFC_4122.UUID(text) == uuid)
+            #expect(try RFC_4122.UUID(uuid.string(.hyphenated, uppercase: true)) == uuid)
+        }
+    }
+
+    @Test
     func `Rejects wrong length byte array`() {
         #expect(throws: RFC_4122.UUID.Error.invalidLength) {
             try RFC_4122.UUID([0x55, 0x0e, 0x84])
