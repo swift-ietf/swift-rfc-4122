@@ -2,7 +2,7 @@ import ASCII
 import Byte
 import Standard_Library_Extensions
 
-extension RFC_4122 {
+extension IETF.RFC.`4122` {
 
     public struct UUID: Sendable {
 
@@ -43,7 +43,7 @@ extension RFC_4122 {
     }
 }
 
-extension RFC_4122.UUID: Equatable {
+extension IETF.RFC.`4122`.UUID: Equatable {
     public static func == (lhs: Self, rhs: Self) -> Bool {
         Swift::withUnsafeBytes(of: lhs.bytes) { lhsBuffer in
             Swift::withUnsafeBytes(of: rhs.bytes) { rhsBuffer in
@@ -53,7 +53,7 @@ extension RFC_4122.UUID: Equatable {
     }
 }
 
-extension RFC_4122.UUID: Hashable {
+extension IETF.RFC.`4122`.UUID: Hashable {
     public func hash(into hasher: inout Hasher) {
         Swift::withUnsafeBytes(of: bytes) { buffer in
             unsafe hasher.combine(bytes: buffer)
@@ -61,7 +61,7 @@ extension RFC_4122.UUID: Hashable {
     }
 }
 
-extension RFC_4122.UUID {
+extension IETF.RFC.`4122`.UUID {
 
     public subscript(index: Int) -> UInt8 {
         get {
@@ -79,7 +79,7 @@ extension RFC_4122.UUID {
     }
 }
 
-extension RFC_4122.UUID {
+extension IETF.RFC.`4122`.UUID {
 
     private static func parse(_ string: Swift::String) throws(Error) -> Self {
         return try parseUTF8([Byte](utf8: string), originalString: string)

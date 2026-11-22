@@ -1,4 +1,4 @@
-extension RFC_4122.UUID {
+extension IETF.RFC.`4122`.UUID {
 
     public static let dns = Self(
         bytes: (
@@ -37,9 +37,9 @@ extension RFC_4122.UUID {
     )
 }
 
-extension RFC_4122.UUID {
+extension IETF.RFC.`4122`.UUID {
 
-    public static func v3<H: RFC_4122.HashProvider>(
+    public static func v3<H: IETF.RFC.`4122`.HashProvider>(
         namespace: Self,
         name: String,
         using hashProvider: H
@@ -47,7 +47,7 @@ extension RFC_4122.UUID {
         v3(namespace: namespace, nameBytes: Array(name.utf8), using: hashProvider)
     }
 
-    public static func v3<H: RFC_4122.HashProvider>(
+    public static func v3<H: IETF.RFC.`4122`.HashProvider>(
         namespace: Self,
         nameBytes: [UInt8],
         using hashProvider: H
@@ -74,9 +74,9 @@ extension RFC_4122.UUID {
     }
 }
 
-extension RFC_4122.UUID {
+extension IETF.RFC.`4122`.UUID {
 
-    public static func v5<H: RFC_4122.HashProvider>(
+    public static func v5<H: IETF.RFC.`4122`.HashProvider>(
         namespace: Self,
         name: String,
         using hashProvider: H
@@ -84,7 +84,7 @@ extension RFC_4122.UUID {
         v5(namespace: namespace, nameBytes: Array(name.utf8), using: hashProvider)
     }
 
-    public static func v5<H: RFC_4122.HashProvider>(
+    public static func v5<H: IETF.RFC.`4122`.HashProvider>(
         namespace: Self,
         nameBytes: [UInt8],
         using hashProvider: H
@@ -111,9 +111,9 @@ extension RFC_4122.UUID {
     }
 }
 
-extension RFC_4122.UUID {
+extension IETF.RFC.`4122`.UUID {
 
-    public static func v4<R: RFC_4122.RandomProvider>(
+    public static func v4<R: IETF.RFC.`4122`.RandomProvider>(
         using random: R
     ) throws(R.RandomError) -> Self {
         var bytes:

@@ -1,4 +1,4 @@
-extension RFC_4122.UUID {
+extension IETF.RFC.`4122`.UUID {
 
     public enum Error: Swift::Error, Sendable, Hashable {
 

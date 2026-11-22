@@ -2,9 +2,9 @@ import Testing
 
 @testable import RFC_4122
 
-enum `RFC_4122.UUID Tests` {}
+enum `IETF.RFC.4122.UUID Tests` {}
 
-extension `RFC_4122.UUID Tests` {
+extension `IETF.RFC.4122.UUID Tests` {
     @Suite
     struct Test {
         @Suite struct Unit {}
@@ -13,29 +13,29 @@ extension `RFC_4122.UUID Tests` {
     }
 }
 
-extension `RFC_4122.UUID Tests`.Test.Unit {
+extension `IETF.RFC.4122.UUID Tests`.Test.Unit {
 
     @Test
     func `Parses hyphenated lowercase UUID`() throws {
-        let uuid = try RFC_4122.UUID("550e8400-e29b-41d4-a716-446655440000")
+        let uuid = try IETF.RFC.`4122`.UUID("550e8400-e29b-41d4-a716-446655440000")
         #expect(uuid.description == "550e8400-e29b-41d4-a716-446655440000")
     }
 
     @Test
     func `Parses hyphenated uppercase UUID`() throws {
-        let uuid = try RFC_4122.UUID("550E8400-E29B-41D4-A716-446655440000")
+        let uuid = try IETF.RFC.`4122`.UUID("550E8400-E29B-41D4-A716-446655440000")
         #expect(uuid.description == "550e8400-e29b-41d4-a716-446655440000")
     }
 
     @Test
     func `Parses compact lowercase UUID`() throws {
-        let uuid = try RFC_4122.UUID("550e8400e29b41d4a716446655440000")
+        let uuid = try IETF.RFC.`4122`.UUID("550e8400e29b41d4a716446655440000")
         #expect(uuid.description == "550e8400-e29b-41d4-a716-446655440000")
     }
 
     @Test
     func `Parses compact uppercase UUID`() throws {
-        let uuid = try RFC_4122.UUID("550E8400E29B41D4A716446655440000")
+        let uuid = try IETF.RFC.`4122`.UUID("550E8400E29B41D4A716446655440000")
         #expect(uuid.description == "550e8400-e29b-41d4-a716-446655440000")
     }
 
@@ -47,13 +47,13 @@ extension `RFC_4122.UUID Tests`.Test.Unit {
             0xa7, 0x16, 0x44, 0x66,
             0x55, 0x44, 0x00, 0x00,
         ]
-        let uuid = try RFC_4122.UUID(bytes)
+        let uuid = try IETF.RFC.`4122`.UUID(bytes)
         #expect(uuid.description == "550e8400-e29b-41d4-a716-446655440000")
     }
 
     @Test
     func `Byte subscript access`() throws {
-        let uuid = try RFC_4122.UUID("550e8400-e29b-41d4-a716-446655440000")
+        let uuid = try IETF.RFC.`4122`.UUID("550e8400-e29b-41d4-a716-446655440000")
         #expect(uuid[0] == 0x55)
         #expect(uuid[1] == 0x0e)
         #expect(uuid[15] == 0x00)
@@ -61,80 +61,80 @@ extension `RFC_4122.UUID Tests`.Test.Unit {
 
     @Test
     func `Detects version 1`() throws {
-        let uuid = try RFC_4122.UUID("6ba7b810-9dad-11d1-80b4-00c04fd430c8")
+        let uuid = try IETF.RFC.`4122`.UUID("6ba7b810-9dad-11d1-80b4-00c04fd430c8")
         #expect(uuid.version == .v1)
         #expect(uuid.versionNumber == 1)
     }
 
     @Test
     func `Detects version 4`() throws {
-        let uuid = try RFC_4122.UUID("550e8400-e29b-41d4-a716-446655440000")
+        let uuid = try IETF.RFC.`4122`.UUID("550e8400-e29b-41d4-a716-446655440000")
         #expect(uuid.version == .v4)
         #expect(uuid.versionNumber == 4)
     }
 
     @Test
     func `Returns nil for unknown version`() throws {
-        let uuid = try RFC_4122.UUID("018f0b69-7c00-7000-8000-000000000000")
+        let uuid = try IETF.RFC.`4122`.UUID("018f0b69-7c00-7000-8000-000000000000")
         #expect(uuid.version == nil)
         #expect(uuid.versionNumber == 7)
     }
 
     @Test
     func `Detects RFC 4122 variant`() throws {
-        let uuid = try RFC_4122.UUID("550e8400-e29b-41d4-a716-446655440000")
+        let uuid = try IETF.RFC.`4122`.UUID("550e8400-e29b-41d4-a716-446655440000")
         #expect(uuid.variant == .rfc4122)
     }
 
     @Test
     func `Detects NCS variant`() throws {
-        let uuid = try RFC_4122.UUID("550e8400-e29b-41d4-0716-446655440000")
+        let uuid = try IETF.RFC.`4122`.UUID("550e8400-e29b-41d4-0716-446655440000")
         #expect(uuid.variant == .ncs)
     }
 
     @Test
     func `Compact format`() throws {
-        let uuid = try RFC_4122.UUID("550e8400-e29b-41d4-a716-446655440000")
+        let uuid = try IETF.RFC.`4122`.UUID("550e8400-e29b-41d4-a716-446655440000")
         #expect(uuid.string(.compact) == "550e8400e29b41d4a716446655440000")
     }
 
     @Test
     func `Uppercase format`() throws {
-        let uuid = try RFC_4122.UUID("550e8400-e29b-41d4-a716-446655440000")
+        let uuid = try IETF.RFC.`4122`.UUID("550e8400-e29b-41d4-a716-446655440000")
         #expect(uuid.string(.hyphenated, uppercase: true) == "550E8400-E29B-41D4-A716-446655440000")
     }
 
     @Test
     func `Equal UUIDs from different formats`() throws {
-        let uuid1 = try RFC_4122.UUID("550e8400-e29b-41d4-a716-446655440000")
-        let uuid2 = try RFC_4122.UUID("550E8400E29B41D4A716446655440000")
+        let uuid1 = try IETF.RFC.`4122`.UUID("550e8400-e29b-41d4-a716-446655440000")
+        let uuid2 = try IETF.RFC.`4122`.UUID("550E8400E29B41D4A716446655440000")
         #expect(uuid1 == uuid2)
     }
 
     @Test
     func `Different UUIDs are not equal`() throws {
-        let uuid1 = try RFC_4122.UUID("550e8400-e29b-41d4-a716-446655440000")
-        let uuid2 = try RFC_4122.UUID("550e8400-e29b-41d4-a716-446655440001")
+        let uuid1 = try IETF.RFC.`4122`.UUID("550e8400-e29b-41d4-a716-446655440000")
+        let uuid2 = try IETF.RFC.`4122`.UUID("550e8400-e29b-41d4-a716-446655440001")
         #expect(uuid1 != uuid2)
     }
 
     @Test
     func `Hashable`() throws {
-        let uuid1 = try RFC_4122.UUID("550e8400-e29b-41d4-a716-446655440000")
-        let uuid2 = try RFC_4122.UUID("550e8400-e29b-41d4-a716-446655440000")
-        var set: Set<RFC_4122.UUID> = []
+        let uuid1 = try IETF.RFC.`4122`.UUID("550e8400-e29b-41d4-a716-446655440000")
+        let uuid2 = try IETF.RFC.`4122`.UUID("550e8400-e29b-41d4-a716-446655440000")
+        var set: Set<IETF.RFC.`4122`.UUID> = []
         set.insert(uuid1)
         set.insert(uuid2)
         #expect(set.count == 1)
     }
 }
 
-extension `RFC_4122.UUID Tests`.Test.Unit {
+extension `IETF.RFC.4122.UUID Tests`.Test.Unit {
 
     @Test
     func `RFC 4122 Appendix C: DNS namespace UUID`() throws {
 
-        let uuid = try RFC_4122.UUID("6ba7b810-9dad-11d1-80b4-00c04fd430c8")
+        let uuid = try IETF.RFC.`4122`.UUID("6ba7b810-9dad-11d1-80b4-00c04fd430c8")
         #expect(uuid.version == .v1)
         #expect(uuid.variant == .rfc4122)
         #expect(uuid[0] == 0x6b)
@@ -146,7 +146,7 @@ extension `RFC_4122.UUID Tests`.Test.Unit {
     @Test
     func `RFC 4122 Appendix C: URL namespace UUID`() throws {
 
-        let uuid = try RFC_4122.UUID("6ba7b811-9dad-11d1-80b4-00c04fd430c8")
+        let uuid = try IETF.RFC.`4122`.UUID("6ba7b811-9dad-11d1-80b4-00c04fd430c8")
         #expect(uuid.version == .v1)
         #expect(uuid.variant == .rfc4122)
     }
@@ -154,7 +154,7 @@ extension `RFC_4122.UUID Tests`.Test.Unit {
     @Test
     func `RFC 4122 Appendix C: OID namespace UUID`() throws {
 
-        let uuid = try RFC_4122.UUID("6ba7b812-9dad-11d1-80b4-00c04fd430c8")
+        let uuid = try IETF.RFC.`4122`.UUID("6ba7b812-9dad-11d1-80b4-00c04fd430c8")
         #expect(uuid.version == .v1)
         #expect(uuid.variant == .rfc4122)
     }
@@ -162,7 +162,7 @@ extension `RFC_4122.UUID Tests`.Test.Unit {
     @Test
     func `RFC 4122 Appendix C: X500 namespace UUID`() throws {
 
-        let uuid = try RFC_4122.UUID("6ba7b814-9dad-11d1-80b4-00c04fd430c8")
+        let uuid = try IETF.RFC.`4122`.UUID("6ba7b814-9dad-11d1-80b4-00c04fd430c8")
         #expect(uuid.version == .v1)
         #expect(uuid.variant == .rfc4122)
     }
@@ -170,21 +170,21 @@ extension `RFC_4122.UUID Tests`.Test.Unit {
     @Test
     func `Variant: Microsoft (110x pattern)`() throws {
 
-        let uuid = try RFC_4122.UUID("550e8400-e29b-41d4-c716-446655440000")
+        let uuid = try IETF.RFC.`4122`.UUID("550e8400-e29b-41d4-c716-446655440000")
         #expect(uuid.variant == .microsoft)
     }
 
     @Test
     func `Variant: Future (111x pattern)`() throws {
 
-        let uuid = try RFC_4122.UUID("550e8400-e29b-41d4-e716-446655440000")
+        let uuid = try IETF.RFC.`4122`.UUID("550e8400-e29b-41d4-e716-446655440000")
         #expect(uuid.variant == .future)
     }
 
     @Test
     func `Version 2: DCE Security`() throws {
 
-        let uuid = try RFC_4122.UUID("000004d2-0000-2000-8000-00805f9b34fb")
+        let uuid = try IETF.RFC.`4122`.UUID("000004d2-0000-2000-8000-00805f9b34fb")
         #expect(uuid.version == .v2)
         #expect(uuid.versionNumber == 2)
         #expect(uuid.variant == .rfc4122)
@@ -193,7 +193,7 @@ extension `RFC_4122.UUID Tests`.Test.Unit {
     @Test
     func `Version 3: MD5 name-based`() throws {
 
-        let uuid = try RFC_4122.UUID("5df41881-3aed-3515-88a7-2f4a814cf09e")
+        let uuid = try IETF.RFC.`4122`.UUID("5df41881-3aed-3515-88a7-2f4a814cf09e")
         #expect(uuid.version == .v3)
         #expect(uuid.versionNumber == 3)
         #expect(uuid.variant == .rfc4122)
@@ -202,53 +202,53 @@ extension `RFC_4122.UUID Tests`.Test.Unit {
     @Test
     func `Version 5: SHA-1 name-based`() throws {
 
-        let uuid = try RFC_4122.UUID("2ed6657d-e927-568b-95e1-2665a8aea6a2")
+        let uuid = try IETF.RFC.`4122`.UUID("2ed6657d-e927-568b-95e1-2665a8aea6a2")
         #expect(uuid.version == .v5)
         #expect(uuid.versionNumber == 5)
         #expect(uuid.variant == .rfc4122)
     }
 }
 
-extension `RFC_4122.UUID Tests`.Test.`Edge Case` {
+extension `IETF.RFC.4122.UUID Tests`.Test.`Edge Case` {
     @Test
     func `Rejects invalid length`() {
-        #expect(throws: RFC_4122.UUID.Error.invalidLength) {
-            try RFC_4122.UUID("550e8400")
+        #expect(throws: IETF.RFC.`4122`.UUID.Error.invalidLength) {
+            try IETF.RFC.`4122`.UUID("550e8400")
         }
     }
 
     @Test
     func `Rejects invalid character`() {
-        #expect(throws: RFC_4122.UUID.Error.self) {
-            try RFC_4122.UUID("550g8400-e29b-41d4-a716-446655440000")
+        #expect(throws: IETF.RFC.`4122`.UUID.Error.self) {
+            try IETF.RFC.`4122`.UUID("550g8400-e29b-41d4-a716-446655440000")
         }
     }
 
     @Test
     func `Rejects misplaced hyphens`() {
-        #expect(throws: RFC_4122.UUID.Error.invalidFormat) {
-            try RFC_4122.UUID("550e-8400-e29b-41d4-a716446655440000")
+        #expect(throws: IETF.RFC.`4122`.UUID.Error.invalidFormat) {
+            try IETF.RFC.`4122`.UUID("550e-8400-e29b-41d4-a716446655440000")
         }
     }
 
     @Test
     func `Rejects braces around the hyphenated form`() {
-        #expect(throws: RFC_4122.UUID.Error.invalidLength) {
-            try RFC_4122.UUID("{550e8400-e29b-41d4-a716-446655440000}")
+        #expect(throws: IETF.RFC.`4122`.UUID.Error.invalidLength) {
+            try IETF.RFC.`4122`.UUID("{550e8400-e29b-41d4-a716-446655440000}")
         }
     }
 
     @Test
     func `Rejects the URN form`() {
-        #expect(throws: RFC_4122.UUID.Error.invalidLength) {
-            try RFC_4122.UUID("urn:uuid:550e8400-e29b-41d4-a716-446655440000")
+        #expect(throws: IETF.RFC.`4122`.UUID.Error.invalidLength) {
+            try IETF.RFC.`4122`.UUID("urn:uuid:550e8400-e29b-41d4-a716-446655440000")
         }
     }
 
     @Test
     func `Rejects surrounding whitespace`() {
-        #expect(throws: RFC_4122.UUID.Error.invalidLength) {
-            try RFC_4122.UUID(" 550e8400-e29b-41d4-a716-446655440000")
+        #expect(throws: IETF.RFC.`4122`.UUID.Error.invalidLength) {
+            try IETF.RFC.`4122`.UUID(" 550e8400-e29b-41d4-a716-446655440000")
         }
     }
 
@@ -257,24 +257,24 @@ extension `RFC_4122.UUID Tests`.Test.`Edge Case` {
         for value in 0...255 {
             let byte = UInt8(value)
             let bytes = (0..<16).map { byte &+ UInt8($0) }
-            let uuid = try RFC_4122.UUID(bytes)
+            let uuid = try IETF.RFC.`4122`.UUID(bytes)
             let text = uuid.description
             #expect(text == text.lowercased())
             #expect(text.count == 36)
-            #expect(try RFC_4122.UUID(text) == uuid)
-            #expect(try RFC_4122.UUID(uuid.string(.hyphenated, uppercase: true)) == uuid)
+            #expect(try IETF.RFC.`4122`.UUID(text) == uuid)
+            #expect(try IETF.RFC.`4122`.UUID(uuid.string(.hyphenated, uppercase: true)) == uuid)
         }
     }
 
     @Test
     func `Rejects wrong length byte array`() {
-        #expect(throws: RFC_4122.UUID.Error.invalidLength) {
-            try RFC_4122.UUID([0x55, 0x0e, 0x84])
+        #expect(throws: IETF.RFC.`4122`.UUID.Error.invalidLength) {
+            try IETF.RFC.`4122`.UUID([0x55, 0x0e, 0x84])
         }
     }
 }
 
-private struct TestHashProvider: RFC_4122.HashProvider {}
+private struct TestHashProvider: IETF.RFC.`4122`.HashProvider {}
 
 extension TestHashProvider {
 
@@ -308,7 +308,7 @@ extension TestHashProvider {
     }
 }
 
-private struct MockRandom: RFC_4122.RandomProvider {
+private struct MockRandom: IETF.RFC.`4122`.RandomProvider {
     let pattern: UInt8
 }
 
@@ -320,31 +320,31 @@ extension MockRandom {
     }
 }
 
-extension `RFC_4122.UUID Tests`.Test.Unit {
+extension `IETF.RFC.4122.UUID Tests`.Test.Unit {
 
     @Test
     func `UUID.dns matches RFC 4122 Appendix C`() {
-        #expect(RFC_4122.UUID.dns.description == "6ba7b810-9dad-11d1-80b4-00c04fd430c8")
+        #expect(IETF.RFC.`4122`.UUID.dns.description == "6ba7b810-9dad-11d1-80b4-00c04fd430c8")
     }
 
     @Test
     func `UUID.url matches RFC 4122 Appendix C`() {
-        #expect(RFC_4122.UUID.url.description == "6ba7b811-9dad-11d1-80b4-00c04fd430c8")
+        #expect(IETF.RFC.`4122`.UUID.url.description == "6ba7b811-9dad-11d1-80b4-00c04fd430c8")
     }
 
     @Test
     func `UUID.oid matches RFC 4122 Appendix C`() {
-        #expect(RFC_4122.UUID.oid.description == "6ba7b812-9dad-11d1-80b4-00c04fd430c8")
+        #expect(IETF.RFC.`4122`.UUID.oid.description == "6ba7b812-9dad-11d1-80b4-00c04fd430c8")
     }
 
     @Test
     func `UUID.x500 matches RFC 4122 Appendix C`() {
-        #expect(RFC_4122.UUID.x500.description == "6ba7b814-9dad-11d1-80b4-00c04fd430c8")
+        #expect(IETF.RFC.`4122`.UUID.x500.description == "6ba7b814-9dad-11d1-80b4-00c04fd430c8")
     }
 
     @Test
     func `v3 generates correct version and variant`() {
-        let uuid = RFC_4122.UUID.v3(
+        let uuid = IETF.RFC.`4122`.UUID.v3(
             namespace: .dns,
             name: "test",
             using: TestHashProvider()
@@ -357,12 +357,12 @@ extension `RFC_4122.UUID Tests`.Test.Unit {
 
     @Test
     func `v3 is deterministic (same input = same output)`() {
-        let uuid1 = RFC_4122.UUID.v3(
+        let uuid1 = IETF.RFC.`4122`.UUID.v3(
             namespace: .dns,
             name: "www.example.com",
             using: TestHashProvider()
         )
-        let uuid2 = RFC_4122.UUID.v3(
+        let uuid2 = IETF.RFC.`4122`.UUID.v3(
             namespace: .dns,
             name: "www.example.com",
             using: TestHashProvider()
@@ -373,7 +373,7 @@ extension `RFC_4122.UUID Tests`.Test.Unit {
 
     @Test
     func `v3 known test vector: www.example.com in DNS namespace`() {
-        let uuid = RFC_4122.UUID.v3(
+        let uuid = IETF.RFC.`4122`.UUID.v3(
             namespace: .dns,
             name: "www.example.com",
             using: TestHashProvider()
@@ -385,7 +385,7 @@ extension `RFC_4122.UUID Tests`.Test.Unit {
     @Test
     func `v3 with bytes input`() {
         let nameBytes = Array("test".utf8)
-        let uuid = RFC_4122.UUID.v3(
+        let uuid = IETF.RFC.`4122`.UUID.v3(
             namespace: .dns,
             nameBytes: nameBytes,
             using: TestHashProvider()
@@ -397,7 +397,7 @@ extension `RFC_4122.UUID Tests`.Test.Unit {
 
     @Test
     func `v5 generates correct version and variant`() {
-        let uuid = RFC_4122.UUID.v5(
+        let uuid = IETF.RFC.`4122`.UUID.v5(
             namespace: .dns,
             name: "test",
             using: TestHashProvider()
@@ -410,12 +410,12 @@ extension `RFC_4122.UUID Tests`.Test.Unit {
 
     @Test
     func `v5 is deterministic (same input = same output)`() {
-        let uuid1 = RFC_4122.UUID.v5(
+        let uuid1 = IETF.RFC.`4122`.UUID.v5(
             namespace: .dns,
             name: "www.example.com",
             using: TestHashProvider()
         )
-        let uuid2 = RFC_4122.UUID.v5(
+        let uuid2 = IETF.RFC.`4122`.UUID.v5(
             namespace: .dns,
             name: "www.example.com",
             using: TestHashProvider()
@@ -426,7 +426,7 @@ extension `RFC_4122.UUID Tests`.Test.Unit {
 
     @Test
     func `v5 known test vector: www.example.com in DNS namespace`() {
-        let uuid = RFC_4122.UUID.v5(
+        let uuid = IETF.RFC.`4122`.UUID.v5(
             namespace: .dns,
             name: "www.example.com",
             using: TestHashProvider()
@@ -437,7 +437,7 @@ extension `RFC_4122.UUID Tests`.Test.Unit {
 
     @Test
     func `v4 generates correct version and variant`() {
-        let uuid = RFC_4122.UUID.v4(using: MockRandom(pattern: 0xAA))
+        let uuid = IETF.RFC.`4122`.UUID.v4(using: MockRandom(pattern: 0xAA))
 
         #expect(uuid.version == .v4)
         #expect(uuid.versionNumber == 4)
@@ -446,7 +446,7 @@ extension `RFC_4122.UUID Tests`.Test.Unit {
 
     @Test
     func `v4 preserves random bits correctly`() {
-        let uuid = RFC_4122.UUID.v4(using: MockRandom(pattern: 0xFF))
+        let uuid = IETF.RFC.`4122`.UUID.v4(using: MockRandom(pattern: 0xFF))
 
         #expect(uuid[6] == 0x4F)
 
@@ -459,7 +459,7 @@ extension `RFC_4122.UUID Tests`.Test.Unit {
 
     @Test
     func `v4 closure-based generation`() throws {
-        let uuid = unsafe RFC_4122.UUID.v4 { buffer in
+        let uuid = unsafe IETF.RFC.`4122`.UUID.v4 { buffer in
             for i in buffer.indices {
                 unsafe buffer[i] = 0x55
             }
@@ -470,12 +470,12 @@ extension `RFC_4122.UUID Tests`.Test.Unit {
     }
 }
 
-extension `RFC_4122.UUID Tests`.Test.`Edge Case` {
+extension `IETF.RFC.4122.UUID Tests`.Test.`Edge Case` {
 
     @Test
     func `v4 with the unbound live random throws instead of trapping`() {
-        #expect(throws: RFC_4122.Random.Error.unbound) {
-            try RFC_4122.UUID.v4(using: RFC_4122.Random.liveValue)
+        #expect(throws: IETF.RFC.`4122`.Random.Error.unbound) {
+            try IETF.RFC.`4122`.UUID.v4(using: IETF.RFC.`4122`.Random.liveValue)
         }
     }
 }

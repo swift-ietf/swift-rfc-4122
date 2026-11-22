@@ -1,13 +1,13 @@
 import ASCII
 
-extension RFC_4122.UUID: CustomStringConvertible {
+extension IETF.RFC.`4122`.UUID: CustomStringConvertible {
 
     public var description: String {
         string(.hyphenated, uppercase: false)
     }
 }
 
-extension RFC_4122.UUID {
+extension IETF.RFC.`4122`.UUID {
 
     public enum Format: Sendable {
 
@@ -89,7 +89,7 @@ extension RFC_4122.UUID {
 
 extension String {
 
-    public init(_ uuid: RFC_4122.UUID) {
+    public init(_ uuid: IETF.RFC.`4122`.UUID) {
         self = uuid.description
     }
 }

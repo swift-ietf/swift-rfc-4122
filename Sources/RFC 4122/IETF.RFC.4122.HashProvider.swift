@@ -1,4 +1,4 @@
-extension RFC_4122 {
+extension IETF.RFC.`4122` {
 
     public protocol HashProvider: Sendable {
 

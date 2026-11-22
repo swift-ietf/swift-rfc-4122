@@ -1,13 +1,13 @@
 import Dependency
 
 #if canImport(CryptoKit)
-    extension RFC_4122.UUID {
+    extension IETF.RFC.`4122`.UUID {
 
         public static func v3(namespace: Self, name: String) -> Self {
             v3(
                 namespace: namespace,
                 name: name,
-                using: Dependency.Scope.current[RFC_4122.Hash.self]
+                using: Dependency.Scope.current[IETF.RFC.`4122`.Hash.self]
             )
         }
 
@@ -15,18 +15,18 @@ import Dependency
             v3(
                 namespace: namespace,
                 nameBytes: nameBytes,
-                using: Dependency.Scope.current[RFC_4122.Hash.self]
+                using: Dependency.Scope.current[IETF.RFC.`4122`.Hash.self]
             )
         }
     }
 
-    extension RFC_4122.UUID {
+    extension IETF.RFC.`4122`.UUID {
 
         public static func v5(namespace: Self, name: String) -> Self {
             v5(
                 namespace: namespace,
                 name: name,
-                using: Dependency.Scope.current[RFC_4122.Hash.self]
+                using: Dependency.Scope.current[IETF.RFC.`4122`.Hash.self]
             )
         }
 
@@ -34,15 +34,15 @@ import Dependency
             v5(
                 namespace: namespace,
                 nameBytes: nameBytes,
-                using: Dependency.Scope.current[RFC_4122.Hash.self]
+                using: Dependency.Scope.current[IETF.RFC.`4122`.Hash.self]
             )
         }
     }
 #endif
 
-extension RFC_4122.UUID {
+extension IETF.RFC.`4122`.UUID {
 
-    public static func v4() throws(RFC_4122.Random.Error) -> Self {
-        try v4(using: Dependency.Scope.current[RFC_4122.Random.self])
+    public static func v4() throws(IETF.RFC.`4122`.Random.Error) -> Self {
+        try v4(using: Dependency.Scope.current[IETF.RFC.`4122`.Random.self])
     }
 }

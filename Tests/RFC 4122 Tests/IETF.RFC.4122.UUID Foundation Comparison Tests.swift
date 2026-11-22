@@ -5,14 +5,14 @@ import Time
 
 @testable import RFC_4122
 
-extension `RFC_4122.UUID Tests`.Test {
+extension `IETF.RFC.4122.UUID Tests`.Test {
     @Suite(.serialized)
     struct `Foundation Comparison` {}
 }
 
-extension `RFC_4122.UUID Tests`.Test.`Foundation Comparison` {
+extension `IETF.RFC.4122.UUID Tests`.Test.`Foundation Comparison` {
     @Test
-    func `Parse: RFC_4122.UUID vs Foundation.UUID`() {
+    func `Parse: IETF.RFC.4122.UUID vs Foundation.UUID`() {
         let input = "550e8400-e29b-41d4-a716-446655440000"
 
         let rfc4122 = Benchmark.measure(
@@ -20,8 +20,8 @@ extension `RFC_4122.UUID Tests`.Test.`Foundation Comparison` {
             warmup: 100,
             name: "RFC_4122.UUID parsing"
         ) {
-            do throws(RFC_4122.UUID.Error) {
-                _ = try RFC_4122.UUID(input)
+            do throws(IETF.RFC.`4122`.UUID.Error) {
+                _ = try IETF.RFC.`4122`.UUID(input)
             } catch {}
         }
 
@@ -37,13 +37,13 @@ extension `RFC_4122.UUID Tests`.Test.`Foundation Comparison` {
     }
 
     @Test
-    func `Parse batch: RFC_4122.UUID vs Foundation.UUID (1000 UUIDs)`() {
+    func `Parse batch: IETF.RFC.4122.UUID vs Foundation.UUID (1000 UUIDs)`() {
         let input = "550e8400-e29b-41d4-a716-446655440000"
 
         let rfc4122 = Benchmark.measure(iterations: 10, warmup: 2, name: "RFC_4122 parse x1000") {
             for _ in 0..<1000 {
-                do throws(RFC_4122.UUID.Error) {
-                    _ = try RFC_4122.UUID(input)
+                do throws(IETF.RFC.`4122`.UUID.Error) {
+                    _ = try IETF.RFC.`4122`.UUID(input)
                 } catch {}
             }
         }
@@ -62,10 +62,10 @@ extension `RFC_4122.UUID Tests`.Test.`Foundation Comparison` {
     }
 }
 
-extension `RFC_4122.UUID Tests`.Test.`Foundation Comparison` {
+extension `IETF.RFC.4122.UUID Tests`.Test.`Foundation Comparison` {
     @Test
-    func `Format: RFC_4122.UUID vs Foundation.UUID`() throws {
-        let rfc4122UUID = try RFC_4122.UUID("550e8400-e29b-41d4-a716-446655440000")
+    func `Format: IETF.RFC.4122.UUID vs Foundation.UUID`() throws {
+        let rfc4122UUID = try IETF.RFC.`4122`.UUID("550e8400-e29b-41d4-a716-446655440000")
         let foundationUUID = Foundation.UUID(uuidString: "550e8400-e29b-41d4-a716-446655440000")!
 
         let rfc4122 = Benchmark.measure(
@@ -88,8 +88,8 @@ extension `RFC_4122.UUID Tests`.Test.`Foundation Comparison` {
     }
 
     @Test
-    func `Format lowercase: RFC_4122.UUID vs Foundation.UUID`() throws {
-        let rfc4122UUID = try RFC_4122.UUID("550e8400-e29b-41d4-a716-446655440000")
+    func `Format lowercase: IETF.RFC.4122.UUID vs Foundation.UUID`() throws {
+        let rfc4122UUID = try IETF.RFC.`4122`.UUID("550e8400-e29b-41d4-a716-446655440000")
         let foundationUUID = Foundation.UUID(uuidString: "550e8400-e29b-41d4-a716-446655440000")!
 
         let rfc4122 = Benchmark.measure(iterations: 1000, warmup: 100, name: "RFC_4122 lowercase") {
@@ -113,12 +113,12 @@ extension `RFC_4122.UUID Tests`.Test.`Foundation Comparison` {
     }
 }
 
-extension `RFC_4122.UUID Tests`.Test.`Foundation Comparison` {
+extension `IETF.RFC.4122.UUID Tests`.Test.`Foundation Comparison` {
     @Test
-    func `Random generation: RFC_4122.UUID vs Foundation.UUID`() {
+    func `Random generation: IETF.RFC.4122.UUID vs Foundation.UUID`() {
         let rfc4122 = Benchmark.measure(iterations: 1000, warmup: 100, name: "RFC_4122.UUID.v4") {
             do throws(SystemRandom.RandomError) {
-                _ = try RFC_4122.UUID.v4(using: SystemRandom())
+                _ = try IETF.RFC.`4122`.UUID.v4(using: SystemRandom())
             } catch {}
         }
 
@@ -136,7 +136,7 @@ extension `RFC_4122.UUID Tests`.Test.`Foundation Comparison` {
         let rfc4122 = Benchmark.measure(iterations: 10, warmup: 2, name: "RFC_4122 v4 x1000") {
             for _ in 0..<1000 {
                 do throws(SystemRandom.RandomError) {
-                    _ = try RFC_4122.UUID.v4(using: random)
+                    _ = try IETF.RFC.`4122`.UUID.v4(using: random)
                 } catch {}
             }
         }
@@ -155,11 +155,11 @@ extension `RFC_4122.UUID Tests`.Test.`Foundation Comparison` {
     }
 }
 
-extension `RFC_4122.UUID Tests`.Test.`Foundation Comparison` {
+extension `IETF.RFC.4122.UUID Tests`.Test.`Foundation Comparison` {
     @Test
-    func `Equality: RFC_4122.UUID vs Foundation.UUID`() throws {
-        let rfc1 = try RFC_4122.UUID("550e8400-e29b-41d4-a716-446655440000")
-        let rfc2 = try RFC_4122.UUID("550e8400-e29b-41d4-a716-446655440000")
+    func `Equality: IETF.RFC.4122.UUID vs Foundation.UUID`() throws {
+        let rfc1 = try IETF.RFC.`4122`.UUID("550e8400-e29b-41d4-a716-446655440000")
+        let rfc2 = try IETF.RFC.`4122`.UUID("550e8400-e29b-41d4-a716-446655440000")
         let found1 = Foundation.UUID(uuidString: "550e8400-e29b-41d4-a716-446655440000")!
         let found2 = Foundation.UUID(uuidString: "550e8400-e29b-41d4-a716-446655440000")!
 
@@ -179,8 +179,8 @@ extension `RFC_4122.UUID Tests`.Test.`Foundation Comparison` {
     }
 
     @Test
-    func `Hashing: RFC_4122.UUID vs Foundation.UUID`() throws {
-        let rfc = try RFC_4122.UUID("550e8400-e29b-41d4-a716-446655440000")
+    func `Hashing: IETF.RFC.4122.UUID vs Foundation.UUID`() throws {
+        let rfc = try IETF.RFC.`4122`.UUID("550e8400-e29b-41d4-a716-446655440000")
         let found = Foundation.UUID(uuidString: "550e8400-e29b-41d4-a716-446655440000")!
 
         let rfc4122 = Benchmark.measure(iterations: 1000, warmup: 100, name: "RFC_4122 hash") {
@@ -195,12 +195,12 @@ extension `RFC_4122.UUID Tests`.Test.`Foundation Comparison` {
     }
 }
 
-extension `RFC_4122.UUID Tests`.Test.`Foundation Comparison` {
+extension `IETF.RFC.4122.UUID Tests`.Test.`Foundation Comparison` {
     @Test
     func `Memory layout comparison`() {
-        let rfc4122Size = MemoryLayout<RFC_4122.UUID>.size
-        let rfc4122Stride = MemoryLayout<RFC_4122.UUID>.stride
-        let rfc4122Alignment = MemoryLayout<RFC_4122.UUID>.alignment
+        let rfc4122Size = MemoryLayout<IETF.RFC.`4122`.UUID>.size
+        let rfc4122Stride = MemoryLayout<IETF.RFC.`4122`.UUID>.stride
+        let rfc4122Alignment = MemoryLayout<IETF.RFC.`4122`.UUID>.alignment
 
         let foundationSize = MemoryLayout<Foundation.UUID>.size
         let foundationStride = MemoryLayout<Foundation.UUID>.stride
@@ -221,7 +221,7 @@ extension `RFC_4122.UUID Tests`.Test.`Foundation Comparison` {
     }
 }
 
-private struct SystemRandom: RFC_4122.RandomProvider {}
+private struct SystemRandom: IETF.RFC.`4122`.RandomProvider {}
 
 extension SystemRandom {
     func fill(_ buffer: UnsafeMutableRawBufferPointer) throws(Never) {

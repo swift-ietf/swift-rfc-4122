@@ -1,6 +1,6 @@
 public import Dependency
 
-extension RFC_4122 {
+extension IETF.RFC.`4122` {
 
     @safe public struct Random: Sendable {
         @usableFromInline
@@ -15,8 +15,8 @@ extension RFC_4122 {
     }
 }
 
-extension RFC_4122.Random: RFC_4122.RandomProvider {
-    public typealias RandomError = RFC_4122.Random.Error
+extension IETF.RFC.`4122`.Random: IETF.RFC.`4122`.RandomProvider {
+    public typealias RandomError = IETF.RFC.`4122`.Random.Error
 
     @inlinable
     public func fill(_ buffer: UnsafeMutableRawBufferPointer) throws(Error) {
@@ -24,17 +24,17 @@ extension RFC_4122.Random: RFC_4122.RandomProvider {
     }
 }
 
-extension RFC_4122.Random: Dependency.Key {
-    public typealias Value = RFC_4122.Random
+extension IETF.RFC.`4122`.Random: Dependency.Key {
+    public typealias Value = IETF.RFC.`4122`.Random
 
-    public static var liveValue: RFC_4122.Random {
-        unsafe RFC_4122.Random { _ throws(Error) in
+    public static var liveValue: IETF.RFC.`4122`.Random {
+        unsafe IETF.RFC.`4122`.Random { _ throws(Error) in
             throw .unbound
         }
     }
 
-    public static var testValue: RFC_4122.Random {
-        unsafe RFC_4122.Random { buffer in
+    public static var testValue: IETF.RFC.`4122`.Random {
+        unsafe IETF.RFC.`4122`.Random { buffer in
             for i in buffer.indices {
                 unsafe buffer[i] = UInt8(truncatingIfNeeded: i)
             }

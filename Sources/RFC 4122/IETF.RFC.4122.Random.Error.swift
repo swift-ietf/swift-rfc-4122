@@ -1,4 +1,4 @@
-extension RFC_4122.Random {
+extension IETF.RFC.`4122`.Random {
 
     public enum Error: Swift::Error, Sendable {
 

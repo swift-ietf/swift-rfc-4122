@@ -18,6 +18,7 @@ let package = Package(
         )
     ],
     dependencies: [
+        .package(url: "https://github.com/swift-ietf/swift-rfc.git", branch: "main"),
         .package(
             url: "https://github.com/swift-atoms/swift-ascii.git",
             branch: "main"
@@ -39,6 +40,7 @@ let package = Package(
         .target(
             name: "RFC 4122",
             dependencies: [
+                .product(name: "IETF RFC", package: "swift-rfc"),
                 .product(name: "ASCII", package: "swift-ascii"),
                 .product(name: "Byte", package: "swift-byte"),
                 .product(
@@ -54,7 +56,7 @@ let package = Package(
                 .target(name: "RFC 4122")
             ],
             exclude: [
-                "RFC_4122.UUID Foundation Comparison Tests.swift"
+                "IETF.RFC.4122.UUID Foundation Comparison Tests.swift"
             ]
         ),
     ],

@@ -3,7 +3,7 @@
     internal import CryptoKit
 #endif
 
-extension RFC_4122 {
+extension IETF.RFC.`4122` {
 
     public struct Hash: Sendable {
         @usableFromInline
@@ -23,7 +23,7 @@ extension RFC_4122 {
     }
 }
 
-extension RFC_4122.Hash: RFC_4122.HashProvider {
+extension IETF.RFC.`4122`.Hash: IETF.RFC.`4122`.HashProvider {
     @inlinable
     public func md5(_ data: [UInt8]) -> [UInt8] { _md5(data) }
 
@@ -32,11 +32,11 @@ extension RFC_4122.Hash: RFC_4122.HashProvider {
 }
 
 #if canImport(CryptoKit)
-    extension RFC_4122.Hash: Dependency.Key {
-        public typealias Value = RFC_4122.Hash
+    extension IETF.RFC.`4122`.Hash: Dependency.Key {
+        public typealias Value = IETF.RFC.`4122`.Hash
 
-        public static var liveValue: RFC_4122.Hash {
-            RFC_4122.Hash(
+        public static var liveValue: IETF.RFC.`4122`.Hash {
+            IETF.RFC.`4122`.Hash(
                 md5: { data in
                     var hasher = Insecure.MD5()
                     data.withUnsafeBufferPointer {
@@ -54,8 +54,8 @@ extension RFC_4122.Hash: RFC_4122.HashProvider {
             )
         }
 
-        public static var testValue: RFC_4122.Hash {
-            RFC_4122.Hash(
+        public static var testValue: IETF.RFC.`4122`.Hash {
+            IETF.RFC.`4122`.Hash(
                 md5: { data in
                     var result = [UInt8](repeating: 0, count: 16)
                     (0..<min(data.count, 16)).forEach { result[$0] = data[$0] }
