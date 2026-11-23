@@ -254,8 +254,7 @@ extension `IETF.RFC.4122.UUID Tests`.Test.`Edge Case` {
 
     @Test
     func `Every byte value round-trips through the lower-case hyphenated form`() throws {
-        for value in 0...255 {
-            let byte = UInt8(value)
+        try (UInt8.min...UInt8.max).forEach { byte in
             let bytes = (0..<16).map { byte &+ UInt8($0) }
             let uuid = try IETF.RFC.`4122`.UUID(bytes)
             let text = uuid.description
